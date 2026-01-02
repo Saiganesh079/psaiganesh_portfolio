@@ -1,172 +1,1134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Penta Saiganesh | Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saiganesh | 3D Artist & Designer</title>
+    <meta name="description" content="Portfolio of Saiganesh, a 3D Artist and Designer.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-color: #0a0a0a;
+            --surface-color: #141414;
+            
+            /* RED THEME */
+            --accent-color: #b91c1c;       /* Deep Red */
+            --accent-glow: #ef4444;        /* Bright Red */
+            --accent-gradient: linear-gradient(135deg, #ef4444, #991b1b);
+            
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1a1;
+            --text-on-glass: #1f1f1f;      /* Dark text for light glass cards */
+            
+            --font-heading: 'Syne', sans-serif;
+            --font-body: 'Space Grotesk', sans-serif;
+            
+            --container-width: 1400px;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 8rem;
+            
+            --transition-fast: 0.3s ease;
+            --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-fast);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .display-text {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            background: linear-gradient(to right, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            display: inline-block;
+            color: var(--text-primary);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            width: 60px;
+            height: 2px;
+            background: var(--accent-glow);
+            transform: translateY(-50%) translateX(20px);
+            opacity: 1;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .subtitle {
+            color: var(--accent-glow);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            display: block;
+            text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        /* --- LAYOUT UTILITIES --- */
+        .container {
+            width: 90%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+
+        section {
+            padding: var(--spacing-xl) 0;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: var(--spacing-md) 0;
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #fff;
+        }
+
+        .logo span {
+            color: var(--accent-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-primary);
+            text-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
+
+        .cta-btn {
+            background: var(--text-primary);
+            color: var(--bg-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition-fast);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-btn:hover {
+            background: var(--accent-glow);
+            color: var(--text-primary);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        /* Abstract Background Animation */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-color);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+            opacity: 0.6;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-glow);
+            bottom: 20%;
+            right: 10%;
+            animation-delay: -5s;
+            opacity: 0.5;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(40px, -60px); }
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            margin-bottom: var(--spacing-md);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s var(--transition-slow) forwards;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #e0e0e0;
+            margin-bottom: var(--spacing-md);
+            max-width: 500px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s var(--transition-slow) 0.2s forwards;
+        }
+
+        .hero-actions {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s var(--transition-slow) 0.4s forwards;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .secondary-btn {
+            border: 1px solid var(--accent-glow);
+            background: rgba(185, 28, 28, 0.1);
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .secondary-btn:hover {
+            background: var(--accent-color);
+            box-shadow: 0 0 15px rgba(185, 28, 28, 0.5);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- MARQUEE --- */
+        .marquee-section {
+            padding: 0;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(5px);
+        }
+
+        .marquee {
+            display: flex;
+            white-space: nowrap;
+            overflow: hidden;
+            padding: var(--spacing-md) 0;
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: scroll 20s linear infinite;
+        }
+
+        .marquee-item {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.15);
+            margin: 0 var(--spacing-lg);
+            text-transform: uppercase;
+            font-weight: 800;
+            -webkit-text-stroke: 1px rgba(239, 68, 68, 0.3); /* Red Stroke */
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* --- GLASS CARD STYLES (User Provided & Adapted) --- */
+        /* 
+           Note: Because the cards are white-transparent, text inside them 
+           has been set to dark (#1f1f1f) for readability.
+        */
+        .portfolio-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Centers the fixed-width cards */
+            gap: 40px;
+        }
+
+        .glass-card {
+            width: 240px;
+            height: 360px;
+            /* User provided base styles */
+            background: rgba(255, 255, 255, 0.37);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3), /* Darkened shadow for contrast on black bg */
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 0 60px 30px rgba(255, 255, 255, 0.3); /* Adjusted alpha from 3 to 0.3 for CSS validity */
+            position: relative;
+            overflow: hidden;
+            
+            /* Interaction transitions */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 20px 50px rgba(239, 68, 68, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 0 60px 30px rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.8),
+                transparent
+            );
+            z-index: 2;
+        }
+
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.8),
+                transparent,
+                rgba(255, 255, 255, 0.3)
+            );
+            z-index: 2;
+        }
+
+        /* Card Internal Layout */
+        .card-image {
+            width: 100%;
+            height: 60%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .glass-card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 1.2rem;
+            height: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            z-index: 3;
+            color: var(--text-on-glass);
+        }
+
+        .card-tags {
+            font-size: 0.65rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            line-height: 1.2;
+        }
+
+        .card-desc {
+            font-size: 0.75rem;
+            color: #444; /* Darker grey for text on glass */
+            line-height: 1.4;
+        }
+
+        .view-icon {
+            align-self: flex-end;
+            background: var(--accent-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            margin-top: auto;
+            box-shadow: 0 4px 10px rgba(185, 28, 28, 0.4);
+        }
+
+        /* --- FEATURED WORK --- */
+        .featured-section {
+            /* Using a similar glass style for the featured container */
+            background: rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .featured-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        .featured-image {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        
+        .featured-image img {
+            transition: transform 0.5s ease;
+        }
+        
+        .featured-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .featured-content ul {
+            margin: var(--spacing-md) 0;
+        }
+
+        .featured-content li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+
+        .featured-content li::before {
+            content: '→';
+            color: var(--accent-glow);
+        }
+
+        /* --- EXPERTISE (Glass Cards List) --- */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Reusing the glass-card style but sizing differently for skills */
+        .skill-glass {
+            /* Copied styles */
+            background: rgba(255, 255, 255, 0.15); /* Darker glass for larger blocks */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            
+            /* Dimensions */
+            width: 280px;
+            padding: 2rem;
+            color: white; /* Keeping text white here as background is darker */
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-glow);
+            text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        /* --- CONTACT --- */
+        .contact-section {
+            text-align: center;
+            background: radial-gradient(circle at center, #2a0a0a 0%, var(--bg-color) 70%);
+        }
+
+        .contact-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-text {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.2rem;
+        }
+
+        .email-link {
+            font-family: var(--font-heading);
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent-glow);
+            padding-bottom: 5px;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .email-link:hover {
+            color: var(--accent-glow);
+            border-color: transparent;
+            text-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: var(--spacing-md) 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: flex;
+            text-align: right;
+            justify-content: space-between;
+        }
+
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 900px) {
+            .featured-layout {
+                grid-template-columns: 1fr;
+            }
+            .featured-image {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .display-text {
+                font-size: 3rem;
+            }
+            .glass-card {
+                /* Allow cards to grow on mobile */
+                width: 100%;
+                max-width: 320px;
+                height: 400px; /* Slightly taller on mobile */
+            }
+            footer {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+
+
+                /* --- SOFTWARES --- */
+        .software-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 2.5rem;
+        }
+
+        .software-glass {
+            width: 180px;
+            height: 160px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        .software-glass img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.3));
+        }
+
+        .software-glass span {
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+
+        .software-glass:hover {
+            transform: translateY(-6px);
+            background: rgba(185, 28, 28, 0.35);
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+        }
+
+
+
+        /* --- SOCIAL LINKS --- */
+        .social-links {
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+        }
+
+        .social-links a {
+            width: 62px;
+            height: 62px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        .social-links img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            filter: brightness(1.1);
+        }
+
+        .social-links a:hover {
+            background: rgba(185, 28, 28, 0.45);
+            transform: translateY(-6px);
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.7);
+        }
+
+        .social-links a:hover img {
+            filter: brightness(1.3);
+        }
+
+
+
+
+    </style>
 </head>
 <body>
-  <header>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">SAI<span> GANESH</span>.</a>
+                <ul class="nav-links">
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="#expertise">Expertise</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact" class="cta-btn">Let's Talk</a></li>
+                </ul>
+                <div class="mobile-toggle" style="display:none; font-size: 1.5rem; cursor:pointer;">☰</div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+            </div>
+            <div class="container">
+                <div class="hero-content">
+                    <span class="subtitle">3D Artist & Designer</span>
+                    <h1 class="display-text">Sculpting Digital Reality.</h1>
+                    <h2>I craft immersive 3D Characters, visual identities that bridge the gap between imagination and the screen.</h2>
+                    <div class="hero-actions">
+                        <a href="#work" class="cta-btn">View Portfolio</a>
+                        <a href="#contact" class="secondary-btn">Contact Me</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Marquee -->
+        <div class="marquee-section">
+            <div class="marquee">
+                <div class="marquee-content">
+                    <span class="marquee-item">3D Artist</span>
+                    <span class="marquee-item">Designer</span>
+                    <span class="marquee-item">Game Designer</span>
+
+                    <!-- Repeat for loop -->
+                    <span class="marquee-item">3D Artist</span>
+                    <span class="marquee-item">Designer</span>
+                    <span class="marquee-item">Game Designer</span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Featured Project -->
+        <section id="featured" class="featured-section">
+            <div class="container">
+                <div class="featured-layout">
+                    <div class="featured-image">
+                        <!-- Placeholder: Cyberpunk City -->
+                        <img src="https://picsum.photos/seed/cyberpunk/800/600.jpg" alt="Featured Cyberpunk City Project">
+                    </div>
+                    <div class="featured-content">
+                        <span class="subtitle">Featured Project</span>
+                        <h2 class="section-title" style="margin-top: 0;">Souls like Game</h2>
+                        <p style="color: #ccc; margin-bottom: 2rem;">
+                            A world exploration and adventure game, revolves around intersting lore. player fight with demons to unveil detials.
+                        </p>
+                        <ul>
+                            <li>Game Development</li>
+                            <li>Characters Design</li>
+                            <li>World Development</li>
+                            <li>Optimization for gameplay</li>
+                        </ul>
+                        <br>
+                        <a href="#" class="cta-btn">View Progress</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Grid (Glass Cards) -->
+        <section id="work">
+            <div class="container">
+                <span class="subtitle">Selected Works</span>
+                <h2 class="section-title">3D Projects</h2>
+                
+                <div class="portfolio-grid">
+                    <!-- Project 1 -->
+                    <article class="glass-card">
+                        <div class="card-image">
+                            <img src="https://picsum.photos/seed/scifi/400/400.jpg" alt="Vehicle Design">
+                        </div>
+                        <div class="card-content">
+                            <div>
+                                <div class="card-tags">Hard Surface</div>
+                                <h3 class="card-title">Dure Helicopter</h3>
+                                <p class="card-desc">Game ready vehicle concept for AAA and stylized game.</p>
+                            </div>
+                            
+                        </div>
+                    </article>
+
+                    <!-- Project 2 -->
+                    <article class="glass-card">
+                        <div class="card-image">
+                            <img src="https://picsum.photos/seed/character/400/400.jpg" alt="Character Sculpt">
+                        </div>
+                        <div class="card-content">
+                            <div>
+                                <div class="card-tags">Character</div>
+                                <h3 class="card-title">Ethereal Guardian</h3>
+                                <p class="card-desc">Fantasy Character Design.</p>
+                            </div>
+                            
+                        </div>
+                    </article>
+
+                    <!-- Project 3 -->
+                    <article class="glass-card">
+                        <div class="card-image">
+                            <img src="https://picsum.photos/seed/weapon/400/400.jpg" alt="Architectural Viz">
+                        </div>
+                        <div class="card-content">
+                            <div>
+                                <div class="card-tags">Weapon Design</div>
+                                <h3 class="card-title">Ancient Weapon</h3>
+                                <p class="card-desc">A Stylized weapon design inspired by ancient hindu god.</p>
+                            </div>
+                            
+                        </div>
+                    </article>
+
+                    <!-- Project 4 -->
+                    <article class="glass-card">
+                        <div class="card-image">
+                            <img src="https://picsum.photos/seed/abstract/400/400.jpg" alt="Abstract Motion">
+                        </div>
+                        <div class="card-content">
+                            <div>
+                                <div class="card-tags">3D Product Design</div>
+                                <h3 class="card-title">Cupboard</h3>
+                                <p class="card-desc">Made for live 3D porduct overview.</p>
+                            </div>
+                            
+                        </div>
+                    </article>
+                </div>
+                
+                <div style="text-align: center; margin-top: var(--spacing-lg);">
+                    <a href="#" class="secondary-btn">View All Projects</a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Expertise -->
+        <section id="expertise">
+            <div class="container">
+                <span class="subtitle">What I Do</span>
+                <h2 class="section-title">My Expertise</h2>
+                <div class="skills-grid">
+                    <div class="skill-glass">
+                        <div class="skill-icon">🧊</div>
+                        <h3 class="card-title" style="color:white;">3D Art and Design</h3>
+                        <p style="color:#ccc; font-size: 0.9rem;">Hard surface and organic modeling using Blender, Maya, and ZBrush.</p>
+                    </div>
+                    <div class="skill-glass">
+                        <div class="skill-icon">💡</div>
+                        <h3 class="card-title" style="color:white;">Lighting</h3>
+                        <p style="color:#ccc; font-size: 0.9rem;">Cinematic lighting setups and render optimization using Unreal Engine.</p>
+                    </div>
+                    <div class="skill-glass">
+                        <div class="skill-icon">🎨</div>
+                        <h3 class="card-title" style="color:white;">Product and Graphic Design</h3>
+                        <p style="color:#ccc; font-size: 0.9rem;">Design thinking oriented to develop prototypes and visual Designs, that solves problem.</p>
+                </div>
+
+
+                <div class="skills-grid">
+                    <div class="skill-glass">
+                        <div class="skill-icon">🌟</div>
+                        <h3 class="card-title" style="color:white;">Motion Graphics</h3>
+                        <p style="color:#ccc; font-size: 0.9rem;">Gives immersivness to Art and Design.</p>
+                    </div>
+                    <div class="skill-glass">
+                        <div class="skill-icon">🗺️</div>
+                        <h3 class="card-title" style="color:white;">Texturing</h3>
+                        <p style="color:#ccc; font-size: 0.9rem;">Materials, UV mapping, and texture painting in Substance Painter.</p>
+                    </div>
+                </div>
+
+
+
+
+        <!-- Marquee -->
+        <div class="marquee-section">
+            <div class="marquee">
+                <div class="marquee-content">
+                    <span class="marquee-item">Blender</span>
+                    <span class="marquee-item">Maya</span>
+                    <span class="marquee-item">Substance Painter</span>
+                    <span class="marquee-item">Unreal Engine</span>
+                    <span class="marquee-item">ZBrush</span>
+                    <span class="marquee-item">After Effects</span>
+                    <!-- Repeat for loop -->
+                    <span class="marquee-item">Blender</span>
+                    <span class="marquee-item">Maya</span>
+                    <span class="marquee-item">Substance Painter</span>
+                    <span class="marquee-item">Unreal Engine 5</span>
+                    <span class="marquee-item">ZBrush</span>
+                    <span class="marquee-item">After Effects</span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Softwares -->
+<section id="software">
     <div class="container">
-      <h1>Penta Saiganesh</h1>
-      <p class="tagline">Business Analytics | Motion Graphics | Game Analytics</p>
-      <nav>
-        <ul class="horizontal-nav">
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#education">Education</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
+        <span class="subtitle">Tools I Use</span>
+        <h2 class="section-title">Softwares</h2>
+
+        <div class="software-grid">
+
+            <div class="software-glass">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg" alt="Adobe After Effects">
+                <span>After Effects</span>
+            </div>
+
+            <div class="software-glass">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Blender_logo_no_text.svg" alt="Blender">
+                <span>Blender</span>
+            </div>
+
+            <div class="software-glass">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Figma-logo.svg/1365px-Figma-logo.svg.png" alt="Blender">
+                <span>Figma</span>
+            </div>
+
+            <div class="software-glass">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg" alt="Adobe Photoshop">
+                <span>Photoshop</span>
+            </div>
+
+            <div class="software-glass">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Autodesk_Maya_version_2023_icon.jpg/640px-Autodesk_Maya_version_2023_icon.jpg" alt="Autodesk Maya">
+                <span>Maya</span>
+            </div>
+
+            <div class="software-glass">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSRVRIxvNG43DyHJL68FAZ5Djqw2MbRllmnA&s" alt="Substance Painter">
+                <span>Substance Painter</span>
+            </div>
+
+            <div class="software-glass">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Unreal_Engine_Logo_%28new_typeface%29.svg/960px-Unreal_Engine_Logo_%28new_typeface%29.svg.png" alt="Unreal Engine">
+                <span>Unreal Engine</span>
+            </div>
+
+            <div class="software-glass">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqwXCOFveGcFhVBRgN3O_fGuDQAgeqF1FYdg&s" alt="ZBrush">
+                <span>ZBrush</span>
+            </div>
+
+        </div>
     </div>
-  </header>
-
-  
-
-  <section id="hero">
-    <div class="container">
-      <img src="https://images.pexels.com/photos/669622/pexels-photo-669622.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2/" alt="Analytics Banner" class="hero-img">
-      <h2>Data-Driven Storyteller | Game Analytics Enthusiast</h2>
-      <p>Translating complex data into powerful insights with creativity and precision.</p>
-    </div>
-  </section>
-
-  <section id="contact" class="container">
-  <h2>Portfolio and Work links</h2>
-    <div>
-    <h4>Analytics Portfolio:</h4>
-    <a href="https://drive.google.com/drive/folders/17z9MkZUVE_VmeN16661hetlkOrfLN581?usp=sharing" target="_blank">View Analytics Work</a><br><br>
-
-    <h4>Design and Editing Portfolio:</h4>
-    <a href="https://drive.google.com/drive/folders/1xaPlnCbQDpPaTWh1PtDqGExU6MDtXs43?usp=sharing" target="_blank">View Design Projects</a><br><br>
-
-    <h4>Projects I Created at Palette69 Design Company:</h4>
-    <ul>
-      <li><a href="https://youtu.be/JjjKCOLS70c?si=SvWHTqhoU3e3KD-J" target="_blank">Video Project – YouTube</a></li>
-      <li><a href="https://palette69.design/works/bayer/" target="_blank">Design & Promotional Video – Bayer</a></li>
-      <li><a href="https://palette69.design/works/boolien/" target="_blank">Brand Design Project – Boolien</a></li>
-    </ul>
-    </div>
+</section>
 
 
-  
-  <section id="about" class="container">
-    <h2>About Me</h2>
-    <p>I’m a creatively-driven Business Analytics professional with a passion for data storytelling, game analytics, and visual design. With hands-on experience in Power BI, Tableau, Excel, and Python, I specialize in transforming complex datasets into actionable insights that inform business strategy and user behavior.
 
-My background spans both analytical and creative domains—from developing a game analytics dashboard using Streamlit and RAWG API, to designing motion graphics for clients like Byju’s and Bayer Crops. I thrive at the intersection of data, design, and decision-making.
+        <!-- About / Stats -->
+        <section id="about" style="background: rgba(255,255,255,0.02);">
+            <div class="container">
+                <div class="featured-layout">
+                    <div class="featured-content">
+                        <span class="subtitle">Background</span>
+                        <h2 class="section-title" style="margin-top:0;">Beyond the Vertex</h2>
+                        <p style="color: #ccc; margin-bottom: 1.5rem;">
+                            With alomost a year industry experience, I've transitioned from graphic design to full 3D production. I am interested to explore, create world class productsand experiences with my creative, technical skills and anamytical skills. 
+                        </p>
+                        <div style="display: flex; gap: 3rem; margin-top: 2rem;">
+                            <div>
+                                <h3 style="font-size: 2.5rem; color: var(--accent-glow);"></h3>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;"></p>
+                            </div>
+                            <div>
+                                <h3 style="font-size: 2.5rem; color: var(--accent-glow);"></h3>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="featured-image">
+                        <img src="https://picsum.photos/seed/workspace/800/800.jpg" alt="Artist Workspace">
+                    </div>
+                </div>
+            </div>
+        </section>
 
-Current Project: Building a dynamic Game Analytics Dashboard to explore trends, predict popularity, and visualize lifecycle stages using real-time data.
+        <!-- Contact -->
+        <section id="contact" class="contact-section">
+            <div class="container contact-wrapper">
+                <span class="subtitle">Connect</span>
+                <h2 class="display-text" style="margin-bottom: 1rem;">Let's Create<br>Together.</h2>
+                <p class="contact-text">
+                    My inbox is always open for creative collaboration. Please contact on gmail.
+                </p>
+                <a href="mailto:kushlu7244@gmail.com" class="email-link">kushlu7244@gmail.com</a>
+            </div>
 
-I’m eager to join forward-thinking teams in data analytics, gaming insights, or creative tech roles—where innovation meets intelligence.
-    </p>
-  </section>
+            <div class="social-links">
 
-  <section id="experience" class="container">
-    <h2>Work Experience</h2>
-    <div class="project">
-      <h3>Liability Insurance Data Analyst Intern - Reliance General Insurance</h3>
-      <p><strong>June 2024 – July 2024</strong></p>
-      <ul>
-        <li>Analyzed and organized large datasets to improve workflow processes.</li>
-        <li>Partnered with travel companies to generate leads and boost revenue.</li>
-        <li>Provided actionable insights to enhance customer acquisition strategies.</li>
-      </ul>
-    </div>
-    <div class="project">
-      <h3>Motion Graphic Artist - Limped Frog</h3>
-      <p><strong>May 2020 – Jan 2021</strong></p>
-      <ul>
-        <li>Created motion graphics for Byju’s, QBS Learning, Bayer Crops.</li>
-        <li>Enhanced production pipeline efficiency and reduced timelines.</li>
-        <li>Coordinated across departments to meet project deadlines.</li>
-      </ul>
-    </div>
-  </section>
+            <a href="https://www.artstation.com/kushlu7244" target="_blank" aria-label="ArtStation">
+                <img src="https://cdnb.artstation.com/p/marketplace/presentation_assets/002/468/233/medium/file.jpg?1676997546" alt="ArtStation">
+            </a>
 
-  <section id="projects" class="container">
-    <h2>Key Projects</h2>
-    <div class="project">
-      <h3>Advanced Game Analytics Dashboard</h3>
-      <p>Interactive Streamlit dashboard using RAWG API to analyze genre, platform, lifecycle trends, and predict game popularity.</p>
-    </div>
-    <div class="project">
-      <h3>Risk Assessment on Automobile Insurance Claims</h3>
-      <p>Applied statistical tools to assess risks and predict claims, improving underwriting strategy.</p>
-    </div>
-    <div class="project">
-      <h3>Smart Bazar Customer Analysis</h3>
-      <p>Segmented customers with Power BI, delivering insights to improve marketing and retention.</p>
-    </div>
-    <div class="project">
-      <h3>Project Management Simulation</h3>
-      <p>Optimized resources and schedules using Agile for Scope, Resources, and Schedule V3 simulation.</p>
-    </div>
-    <div class="project">
-      <h3>Undead and Unknown (Game)</h3>
-      <p>First-person zombie hunting game in Unreal Engine using AI behavior trees.</p>
-    </div>
-  </section>
+            <a href="https://www.linkedin.com/in/saiganesh-p/" target="_blank" aria-label="LinkedIn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/960px-LinkedIn_logo_initials.png" alt="LinkedIn">
+            </a>
 
-  <section id="skills" class="container">
-    <h2>Skills</h2>
-    <ul class="skills">
-      <li>  <h4> Analytics: </h4>Microsoft Excel, Power BI, Tableau, Python for Analytics</li>
-      <li>Streamlit, RAWG API</li>
-      <li> <h4> Design: </h4>Adobe After Effects, Illustrator, Photoshop, Substance Painter</li>
-      <li> <h4> Game Design: </h4>Unreal Engine, Autodesk Maya</li>
-      <li> <h4> Project Management: </h4>Agile, Scrum, Waterfall</li>
-      <li> <h4> Soft skills: </h4> •	Problem-solving, Teamwork and Collaboration, Project Management and Coordination </li>
-    </ul>
-  </section>
+            <a href="https://www.instagram.com/spacenaturestencil/" target="_blank" aria-label="Instagram">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+            </a>
 
-  <section id="education" class="container">
-    <h2>Education</h2>
-    <ul>
-      <li><strong>Post Graduate Diploma in Management - Business Analytics</strong> – Siva Sivani Institute of Management (AICTE), 2023 - 2025</li>
-      <li><strong>Bachelor of Arts in Game Art & Design</strong> – Digiquest Academy (JNAFAU), 2019 - 2023</li>
-    </ul>
-  </section>
-  
-    <section id="Certifications" class="container">
-    <h2>Certifications</h2>
-    <ul>
-      <li><strong>Project Management Professional</strong> – Infosys Springboard Course, Nov 2024</li>
-      <li><strong>Project Management with Agile</strong> – Infosys Springboard Course, Nov 2024</li>
-    </ul>
-  </section>
-  
-    <section id="languages " class="container">
-    <h2>languages</h2>
-    <ul class="languages">
-      <h4> English </h4>
-      <h4> Telugu </h4>
-      <h4> Hindi </h4>
-      
-      
-    </ul>
-  </section>
+            </div>
+        </section>
+    </main>
 
-  <section id="contact" class="container">
-    <h2>Contact Me</h2>
-    <p><strong>Email:</strong> <a href="mailto:kushlu7244@gmail.com">kushlu7244@gmail.com</a></p>
-    <p><strong>Phone:</strong> +91 7674837032</p>
-    <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/saiganesh-p" target="_blank">saiganesh-p</a></p>
-    <p><strong>GitHub:</strong> <a href="https://github.com/Saiganesh079?tab=repositories" target="_blank">Saiganesh079</a></p>
-  </section>
 
-  <footer>
-    <div class="container">
-     
-    </div>
-  </footer>
+    
 
-  <script src="script.js"></script>
+
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>Designed by</p>
+            <p>Saiganesh</p>
+        </div>
+    </footer>
+
+    <!-- Minimal Script for Scroll Interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.glass-card, .skill-glass, .featured-content');
+            
+            animatedElements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                // Staggered delay
+                el.style.transitionDelay = `${index * 0.1}s`; 
+                observer.observe(el);
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
