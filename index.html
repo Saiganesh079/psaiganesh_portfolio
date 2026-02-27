@@ -1,1149 +1,626 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saiganesh | 3D Artist & Designer</title>
-    <meta name="description" content="Portfolio of Saiganesh, a 3D Artist and Designer.">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <style>
-        /* --- CSS VARIABLES & RESET --- */
-        :root {
-            --bg-color: #0a0a0a;
-            --surface-color: #141414;
-            
-            /* RED THEME */
-            --accent-color: #b91c1c;       /* Deep Red */
-            --accent-glow: #ef4444;        /* Bright Red */
-            --accent-gradient: linear-gradient(135deg, #ef4444, #991b1b);
-            
-            --text-primary: #ffffff;
-            --text-secondary: #a1a1a1;
-            --text-on-glass: #1f1f1f;      /* Dark text for light glass cards */
-            
-            --font-heading: 'Syne', sans-serif;
-            --font-body: 'Space Grotesk', sans-serif;
-            
-            --container-width: 1400px;
-            --spacing-sm: 1rem;
-            --spacing-md: 2rem;
-            --spacing-lg: 4rem;
-            --spacing-xl: 8rem;
-            
-            --transition-fast: 0.3s ease;
-            --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+<link rel="stylesheet" href="style.css">
+<script src="main.js" defer></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Saiganesh Penta — Game Designer & 3D Artist based in Berlin. Specializing in game economy, AI systems, progression design, and 3D art.">
+  <meta name="theme-color" content="#050508">
+  <meta property="og:title" content="SAIGANESH PENTA // GAME DESIGNER">
+  <meta property="og:description" content="Game Designer · 3D Artist · Systems Architect based in Berlin.">
+  <meta property="og:type" content="website">
+  <title>SAIGANESH PENTA // GAME DESIGNER</title>
+
+  <!-- Preconnect for fonts — non-blocking load -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@300;400;600&family=Share+Tech+Mono&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@300;400;600&family=Share+Tech+Mono&display=swap"></noscript>
+
+  <!-- Three.js deferred — does not block render -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <!-- GLTFLoader (examples) for loading .glb/.gltf models -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js" defer></script>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: var(--font-body);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: var(--transition-fast);
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        img {
-            max-width: 100%;
-            display: block;
-            object-fit: cover;
-        }
-
-        /* --- TYPOGRAPHY --- */
-        h1, h2, h3, h4 {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            line-height: 1.1;
-        }
-
-        .display-text {
-            font-size: clamp(2.5rem, 8vw, 6rem);
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            background: linear-gradient(to right, #fff, #ccc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: var(--spacing-lg);
-            position: relative;
-            display: inline-block;
-            color: var(--text-primary);
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: -20px;
-            width: 60px;
-            height: 2px;
-            background: var(--accent-glow);
-            transform: translateY(-50%) translateX(20px);
-            opacity: 1;
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .subtitle {
-            color: var(--accent-glow);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: var(--spacing-sm);
-            display: block;
-            text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
-        }
-
-        /* --- LAYOUT UTILITIES --- */
-        .container {
-            width: 90%;
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 var(--spacing-sm);
-        }
-
-        section {
-            padding: var(--spacing-xl) 0;
-        }
-
-        /* --- NAVIGATION --- */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: var(--spacing-md) 0;
-            background: rgba(10, 10, 10, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            color: #fff;
-        }
-
-        .logo span {
-            color: var(--accent-glow);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: var(--spacing-md);
-        }
-
-        .nav-links a {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
-            position: relative;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--text-primary);
-            text-shadow: 0 0 8px rgba(255,255,255,0.5);
-        }
-
-        .cta-btn {
-            background: var(--text-primary);
-            color: var(--bg-color);
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: var(--transition-fast);
-            border: none;
-            cursor: pointer;
-        }
-
-        .cta-btn:hover {
-            background: var(--accent-glow);
-            color: var(--text-primary);
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding-top: 80px;
-        }
-
-        /* Abstract Background Animation */
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.6;
-        }
-
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(90px);
-            animation: float 10s infinite ease-in-out;
-        }
-
-        .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: var(--accent-color);
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-            opacity: 0.6;
-        }
-
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: var(--accent-glow);
-            bottom: 20%;
-            right: 10%;
-            animation-delay: -5s;
-            opacity: 0.5;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(40px, -60px); }
-        }
-
-        .hero-content {
-            z-index: 1;
-            max-width: 800px;
-        }
-
-        .hero h1 {
-            margin-bottom: var(--spacing-md);
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s var(--transition-slow) forwards;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: #e0e0e0;
-            margin-bottom: var(--spacing-md);
-            max-width: 500px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s var(--transition-slow) 0.2s forwards;
-        }
-
-        .hero-actions {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s var(--transition-slow) 0.4s forwards;
-            display: flex;
-            gap: 1rem;
-        }
-
-        .secondary-btn {
-            border: 1px solid var(--accent-glow);
-            background: rgba(185, 28, 28, 0.1);
-            color: var(--text-primary);
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-        }
-
-        .secondary-btn:hover {
-            background: var(--accent-color);
-            box-shadow: 0 0 15px rgba(185, 28, 28, 0.5);
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* --- MARQUEE --- */
-        .marquee-section {
-            padding: 0;
-            overflow: hidden;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(5px);
-        }
-
-        .marquee {
-            display: flex;
-            white-space: nowrap;
-            overflow: hidden;
-            padding: var(--spacing-md) 0;
-        }
-
-        .marquee-content {
-            display: flex;
-            animation: scroll 20s linear infinite;
-        }
-
-        .marquee-item {
-            font-family: var(--font-heading);
-            font-size: 3rem;
-            color: rgba(255, 255, 255, 0.15);
-            margin: 0 var(--spacing-lg);
-            text-transform: uppercase;
-            font-weight: 800;
-            -webkit-text-stroke: 1px rgba(239, 68, 68, 0.3); /* Red Stroke */
-        }
-
-        @keyframes scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        /* --- GLASS CARD STYLES (User Provided & Adapted) --- */
-        /* 
-           Note: Because the cards are white-transparent, text inside them 
-           has been set to dark (#1f1f1f) for readability.
-        */
-        .portfolio-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center; /* Centers the fixed-width cards */
-            gap: 40px;
-        }
-
-        .glass-card {
-            width: 240px;
-            height: 360px;
-            /* User provided base styles */
-            background: rgba(255, 255, 255, 0.37);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3), /* Darkened shadow for contrast on black bg */
-                inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.1),
-                inset 0 0 60px 30px rgba(255, 255, 255, 0.3); /* Adjusted alpha from 3 to 0.3 for CSS validity */
-            position: relative;
-            overflow: hidden;
-            
-            /* Interaction transitions */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 
-                0 20px 50px rgba(239, 68, 68, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6),
-                inset 0 0 60px 30px rgba(255, 255, 255, 0.4);
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.8),
-                transparent
-            );
-            z-index: 2;
-        }
-
-        .glass-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 1px;
-            height: 100%;
-            background: linear-gradient(
-                180deg,
-                rgba(255, 255, 255, 0.8),
-                transparent,
-                rgba(255, 255, 255, 0.3)
-            );
-            z-index: 2;
-        }
-
-        /* Card Internal Layout */
-        .card-image {
-            width: 100%;
-            height: 60%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .glass-card:hover .card-image img {
-            transform: scale(1.1);
-        }
-
-        .card-content {
-            padding: 1.2rem;
-            height: 40%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            z-index: 3;
-            color: var(--text-on-glass);
-        }
-
-        .card-tags {
-            font-size: 0.65rem;
-            color: var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.2rem;
-            line-height: 1.2;
-        }
-
-        .card-desc {
-            font-size: 0.75rem;
-            color: #444; /* Darker grey for text on glass */
-            line-height: 1.4;
-        }
-
-        .view-icon {
-            align-self: flex-end;
-            background: var(--accent-color);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            margin-top: auto;
-            box-shadow: 0 4px 10px rgba(185, 28, 28, 0.4);
-        }
-
-        /* --- FEATURED WORK --- */
-        .featured-section {
-            /* Using a similar glass style for the featured container */
-            background: rgba(255, 255, 255, 0.03);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .featured-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            gap: var(--spacing-lg);
-        }
-
-        .featured-image {
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-        
-        .featured-image img {
-            transition: transform 0.5s ease;
-        }
-        
-        .featured-image:hover img {
-            transform: scale(1.03);
-        }
-
-        .featured-content ul {
-            margin: var(--spacing-md) 0;
-        }
-
-        .featured-content li {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            color: var(--text-secondary);
-        }
-
-        .featured-content li::before {
-            content: '→';
-            color: var(--accent-glow);
-        }
-
-        /* --- EXPERTISE (Glass Cards List) --- */
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        /* Reusing the glass-card style but sizing differently for skills */
-        .skill-glass {
-            /* Copied styles */
-            background: rgba(255, 255, 255, 0.15); /* Darker glass for larger blocks */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            
-            /* Dimensions */
-            width: 280px;
-            padding: 2rem;
-            color: white; /* Keeping text white here as background is darker */
-        }
-
-        .skill-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--accent-glow);
-            text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
-        }
-
-        /* --- CONTACT --- */
-        .contact-section {
-            text-align: center;
-            background: radial-gradient(circle at center, #2a0a0a 0%, var(--bg-color) 70%);
-        }
-
-        .contact-wrapper {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .contact-text {
-            color: var(--text-secondary);
-            margin-bottom: var(--spacing-lg);
-            font-size: 1.2rem;
-        }
-
-        .email-link {
-            font-family: var(--font-heading);
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            color: var(--text-primary);
-            border-bottom: 2px solid var(--accent-glow);
-            padding-bottom: 5px;
-            text-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
-        }
-
-        .email-link:hover {
-            color: var(--accent-glow);
-            border-color: transparent;
-            text-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: var(--spacing-md) 0;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            display: flex;
-            text-align: right;
-            justify-content: space-between;
-        }
-
-        /* --- RESPONSIVE ADJUSTMENTS --- */
-        @media (max-width: 900px) {
-            .featured-layout {
-                grid-template-columns: 1fr;
-            }
-            .featured-image {
-                order: -1;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            .display-text {
-                font-size: 3rem;
-            }
-            .glass-card {
-                /* Allow cards to grow on mobile */
-                width: 100%;
-                max-width: 320px;
-                height: 400px; /* Slightly taller on mobile */
-            }
-            footer {
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
-            }
-        }
-
-
-                /* --- SOFTWARES --- */
-        .software-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 24px;
-            margin-top: 2.5rem;
-        }
-
-        .software-glass {
-            width: 180px;
-            height: 160px;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-            transition: all 0.3s ease;
-        }
-
-        .software-glass img {
-            width: 48px;
-            height: 48px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.3));
-        }
-
-        .software-glass span {
-            font-family: var(--font-heading);
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: white;
-            letter-spacing: 0.05em;
-            text-align: center;
-        }
-
-        .software-glass:hover {
-            transform: translateY(-6px);
-            background: rgba(185, 28, 28, 0.35);
-            box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
-        }
-
-
-
-        /* --- SOCIAL LINKS --- */
-        .social-links {
-            margin-top: 2.5rem;
-            display: flex;
-            justify-content: center;
-            gap: 22px;
-        }
-
-        .social-links a {
-            width: 62px;
-            height: 62px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
-            transition: all 0.3s ease;
-        }
-
-        .social-links img {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
-            filter: brightness(1.1);
-        }
-
-        .social-links a:hover {
-            background: rgba(185, 28, 28, 0.45);
-            transform: translateY(-6px);
-            box-shadow: 0 0 30px rgba(239, 68, 68, 0.7);
-        }
-
-        .social-links a:hover img {
-            filter: brightness(1.3);
-        }
-
-
-
-
-    </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">SAI<span> GANESH</span>.</a>
-                <ul class="nav-links">
-                    <li><a href="#work">Work</a></li>
-                    <li><a href="#expertise">Expertise</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact" class="cta-btn">Let's Talk</a></li>
-                </ul>
-                <div class="mobile-toggle" style="display:none; font-size: 1.5rem; cursor:pointer;">☰</div>
-            </nav>
-        </div>
-    </header>
+<div id="cursor" aria-hidden="true"></div>
+<div id="cursor-dot" aria-hidden="true"></div>
 
-    <!-- Main Content -->
-    <main>
-        
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-bg">
-                <div class="orb orb-1"></div>
-                <div class="orb orb-2"></div>
-            </div>
-            <div class="container">
-                <div class="hero-content">
-                    <span class="subtitle">3D Artist & Designer</span>
-                    <h1 class="display-text">Sculpting Digital Reality.</h1>
-                    <h2>I craft immersive 3D Characters, visual identities that bridge the gap between imagination and the screen.</h2>
-                    <div class="hero-actions">
-                        <a href="#work" class="cta-btn">View Portfolio</a>
-                        <a href="#contact" class="secondary-btn">Contact Me</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- NAV -->
+<nav role="navigation" aria-label="Main navigation">
+  <a href="#hero" class="nav-logo" aria-label="Home — Saiganesh Penta">SAI<span>GANESH</span></a>
+  <ul class="nav-links" id="nav-links" role="list">
+    <li><a href="#about">Profile</a></li>
+    <li><a href="#viewer3d">3D Viewer</a></li>
+    <li><a href="#projects">Quest Log</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#tools">Loadout</a></li>
+    <li><a href="#contact">Connect</a></li>
+  </ul>
+  <div class="nav-status" aria-label="Status: Available for hire">
+    <div class="blink"></div>AVAILABLE FOR HIRE
+  </div>
+  <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-
-
-        <!-- Marquee -->
-        <div class="marquee-section">
-            <div class="marquee">
-                <div class="marquee-content">
-                    <span class="marquee-item">3D Artist</span>
-                    <span class="marquee-item">Designer</span>
-                    <span class="marquee-item">Game Designer</span>
-
-                    <!-- Repeat for loop -->
-                    <span class="marquee-item">3D Artist</span>
-                    <span class="marquee-item">Designer</span>
-                    <span class="marquee-item">Game Designer</span>
-                </div>
-            </div>
-        </div>
-
-
-<!-- Featured Project -->
-<section id="featured" class="featured-section">
-    <div class="container">
-        <div class="featured-layout">
-            
-            <div class="featured-image">
-                <img src="media/images/SoulsGame.png" alt="Souls Like Game Screenshot">
-            </div>
-
-            <div class="featured-content">
-                <span class="subtitle">Featured Project</span>
-                
-                <h2 class="section-title" style="margin-top: 0;">Souls-Like Combat Prototype</h2>
-                
-                <p style="color: #ccc; margin-bottom: 2rem;">
-                    A dark fantasy action prototype inspired by Souls-style combat systems. 
-                    The game focuses on stamina-based combat, tactical enemy encounters, 
-                    and immersive world exploration driven by environmental storytelling.
-                </p>
-
-                <ul>
-                    <li>Advanced Melee Combat System</li>
-                    <li>Enemy AI with Behavior Trees</li>
-                    <li>Dark Fantasy World Design</li>
-                    <li>Gameplay Optimization & Balancing</li>
-                </ul>
-
-                <br>
-
-                <a href="https://www.linkedin.com/posts/saiganesh-p_souls-like-gamea-world-exploration-and-adventure-ugcPost-7425082901047705602-IQZJ?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFDaq-IBJuNo287eBISn4ow6Y6KEREwejRI" 
-                   class="cta-btn" 
-                   target="_blank" 
-                   rel="noopener noreferrer">
-                   View Progress
-                </a>
-            </div>
-
-        </div>
+<!-- HERO -->
+<section id="hero" aria-label="Introduction">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="hero-content">
+    <p class="hud-label">> PLAYER_CARD // BERLIN, GERMANY</p>
+    <h1 class="hero-title"><span class="name">SAIGANESH</span><br><span class="role">PENTA</span></h1>
+    <p class="hero-sub">Game Designer · 3D Artist · Systems Architect<br>Crafting player experiences through data, design, and immersive 3D worlds.</p>
+    <div class="hero-stats">
+      <div class="sblock"><div class="sval">5+</div><div class="slbl">Years Creative</div></div>
+      <div class="sblock"><div class="sval">3</div><div class="slbl">Game Projects</div></div>
+      <div class="sblock"><div class="sval">8+</div><div class="slbl">Tools Mastered</div></div>
     </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn">VIEW QUEST LOG</a>
+      <a href="#contact" class="btn-o">SEND MESSAGE</a>
+    </div>
+  </div>
+  <div class="corner-tl" aria-hidden="true"></div>
+  <div class="corner-br" aria-hidden="true"></div>
+  <p class="scroll-hint" aria-hidden="true">▼ SCROLL TO EXPLORE</p>
 </section>
 
-        
-        <!-- Portfolio Grid (Glass Cards) -->
-        <section id="work">
-            <div class="container">
-                <span class="subtitle">Selected Works</span>
-                <h2 class="section-title">3D Projects</h2>
-                
-                <div class="portfolio-grid">
-                    <!-- Project 1 -->
-                    <article class="glass-card">
-                        <div class="card-image">
-                            <img src="https://cdna.artstation.com/p/assets/images/images/056/192/808/large/stark-rey-copter-ev-r-3-1.jpg?1668661171" alt="Vehicle Design">
-                        </div>
-                        <div class="card-content">
-                            <div>
-                                <div class="card-tags">Hard Surface</div>
-                                <h3 class="card-title">Dure Helicopter</h3>
-                                <p class="card-desc">Game ready vehicle concept for AAA and stylized game.</p>
-                            </div>
-                            
-                        </div>
-                    </article>
+<!-- MARQUEE -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="mtrack">
+    <span class="ac">GAME DESIGNER</span><span>◈</span><span>3D ARTIST</span><span>◈</span>
+    <span class="ac">3D MODELING</span><span>◈</span><span>UNREAL ENGINE</span><span>◈</span>
+    <span class="ac">TEXTURING</span><span>◈</span><span>BLENDER</span><span>◈</span>
+    <span class="ac">ZBRUSH</span><span>◈</span><span>PROGRESSION DESIGN</span><span>◈</span>
+    <span class="ac">AI BEHAVIOR TREES</span><span>◈</span><span>SUBSTANCE PAINTER</span><span>◈</span>
+    <!-- dup for seamless loop -->
+    <span class="ac">GAME DESIGNER</span><span>◈</span><span>3D ARTIST</span><span>◈</span>
+    <span class="ac">3D MODELING</span><span>◈</span><span>UNREAL ENGINE</span><span>◈</span>
+    <span class="ac">GAMEPLAY</span><span>◈</span><span>BLENDER</span><span>◈</span>
+    <span class="ac">ZBRUSH</span><span>◈</span><span>PROGRESSION DESIGN</span><span>◈</span>
+    <span class="ac">AI BEHAVIOR TREES</span><span>◈</span><span>SUBSTANCE PAINTER</span><span>◈</span>
+  </div>
+</div>
 
-                    <!-- Project 2 -->
-                    <article class="glass-card">
-                        <div class="card-image">
-                            <img src="https://cdnb.artstation.com/p/assets/images/images/095/529/195/large/stark-rey-bossr1.jpg?1768829766" alt="Character Sculpt">
-                        </div>
-                        <div class="card-content">
-                            <div>
-                                <div class="card-tags">Character</div>
-                                <h3 class="card-title">Ethereal Guardian</h3>
-                                <p class="card-desc">Fantasy Character Design.</p>
-                            </div>
-                            
-                        </div>
-                    </article>
-
-                    <!-- Project 3 -->
-                    <article class="glass-card">
-                        <div class="card-image">
-                            <img src="https://cdnb.artstation.com/p/assets/images/images/056/280/499/large/stark-rey-hanuman-weapon-2.jpg?1668869844" alt="Architectural Viz">
-                        </div>
-                        <div class="card-content">
-                            <div>
-                                <div class="card-tags">Weapon Design</div>
-                                <h3 class="card-title">Ancient Weapon</h3>
-                                <p class="card-desc">A Stylized weapon design inspired by ancient hindu god.</p>
-                            </div>
-                            
-                        </div>
-                    </article>
-
-                    <!-- Project 4 -->
-                    <article class="glass-card">
-                        <div class="card-image">
-                            <img src="https://cdna.artstation.com/p/assets/images/images/055/972/194/large/stark-rey-toxic-flame-thrower-04-img.jpg?1668157302" alt="Abstract Motion">
-                        </div>
-                        <div class="card-content">
-                            <div>
-                                <div class="card-tags">3D Game Asset</div>
-                                <h3 class="card-title">Toxic Flame Thrower</h3>
-                                <p class="card-desc">Optimized for game performance, Designed for concept.</p>
-                            </div>
-                            
-                        </div>
-                    </article>
-                </div>
-                
-                <div style="text-align: center; margin-top: var(--spacing-lg);">
-                    <a href="#" class="secondary-btn">View All Projects</a>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Expertise -->
-        <section id="expertise">
-            <div class="container">
-                <span class="subtitle">What I Do</span>
-                <h2 class="section-title">My Expertise</h2>
-                <div class="skills-grid">
-                    <div class="skill-glass">
-                        <div class="skill-icon">🧊</div>
-                        <h3 class="card-title" style="color:white;">3D Art and Design</h3>
-                        <p style="color:#ccc; font-size: 0.9rem;">Hard surface and organic modeling using Blender, Maya, and ZBrush.</p>
-                    </div>
-                    <div class="skill-glass">
-                        <div class="skill-icon">💡</div>
-                        <h3 class="card-title" style="color:white;">Lighting</h3>
-                        <p style="color:#ccc; font-size: 0.9rem;">Cinematic lighting setups and render optimization using Unreal Engine.</p>
-                    </div>
-                    <div class="skill-glass">
-                        <div class="skill-icon">🎨</div>
-                        <h3 class="card-title" style="color:white;">Product and Graphic Design</h3>
-                        <p style="color:#ccc; font-size: 0.9rem;">Design thinking oriented to develop prototypes and visual Designs, that solves problem.</p>
-                </div>
-
-
-                <div class="skills-grid">
-                    <div class="skill-glass">
-                        <div class="skill-icon">🌟</div>
-                        <h3 class="card-title" style="color:white;">Motion Graphics</h3>
-                        <p style="color:#ccc; font-size: 0.9rem;">Gives immersivness to Art and Design.</p>
-                    </div>
-                    <div class="skill-glass">
-                        <div class="skill-icon">🗺️</div>
-                        <h3 class="card-title" style="color:white;">Texturing</h3>
-                        <p style="color:#ccc; font-size: 0.9rem;">Materials, UV mapping, and texture painting in Substance Painter.</p>
-                    </div>
-                </div>
-
-
-
-
-        <!-- Marquee -->
-        <div class="marquee-section">
-            <div class="marquee">
-                <div class="marquee-content">
-                    <span class="marquee-item">Blender</span>
-                    <span class="marquee-item">Maya</span>
-                    <span class="marquee-item">Substance Painter</span>
-                    <span class="marquee-item">Unreal Engine</span>
-                    <span class="marquee-item">ZBrush</span>
-                    <span class="marquee-item">After Effects</span>
-                    <!-- Repeat for loop -->
-                    <span class="marquee-item">Blender</span>
-                    <span class="marquee-item">Maya</span>
-                    <span class="marquee-item">Substance Painter</span>
-                    <span class="marquee-item">Unreal Engine 5</span>
-                    <span class="marquee-item">ZBrush</span>
-                    <span class="marquee-item">After Effects</span>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Softwares -->
-<section id="software">
-    <div class="container">
-        <span class="subtitle">Tools I Use</span>
-        <h2 class="section-title">Softwares</h2>
-
-        <div class="software-grid">
-
-            <div class="software-glass">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg" alt="Adobe After Effects">
-                <span>After Effects</span>
-            </div>
-
-            <div class="software-glass">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Blender_logo_no_text.svg" alt="Blender">
-                <span>Blender</span>
-            </div>
-
-            <div class="software-glass">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Figma-logo.svg/1365px-Figma-logo.svg.png" alt="Blender">
-                <span>Figma</span>
-            </div>
-
-            <div class="software-glass">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg" alt="Adobe Photoshop">
-                <span>Photoshop</span>
-            </div>
-
-            <div class="software-glass">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Autodesk_Maya_version_2023_icon.jpg/640px-Autodesk_Maya_version_2023_icon.jpg" alt="Autodesk Maya">
-                <span>Maya</span>
-            </div>
-
-            <div class="software-glass">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSRVRIxvNG43DyHJL68FAZ5Djqw2MbRllmnA&s" alt="Substance Painter">
-                <span>Substance Painter</span>
-            </div>
-
-            <div class="software-glass">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Unreal_Engine_Logo_%28new_typeface%29.svg/960px-Unreal_Engine_Logo_%28new_typeface%29.svg.png" alt="Unreal Engine">
-                <span>Unreal Engine</span>
-            </div>
-
-            <div class="software-glass">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqwXCOFveGcFhVBRgN3O_fGuDQAgeqF1FYdg&s" alt="ZBrush">
-                <span>ZBrush</span>
-            </div>
-
-        </div>
+<!-- ABOUT -->
+<section id="about" aria-labelledby="h-about">
+  <div class="sc">
+    <div class="sh rv">
+      <div><div class="ey">// 01 · CHARACTER SELECT</div><h2 class="st" id="h-about">PLAYER PROFILE</h2></div>
+      <div class="sl"></div><div class="sn">01 / 06</div>
     </div>
+    <div class="about-grid">
+      <div class="csheet rv">
+        <p class="cname">SAIGANESH PENTA</p>
+        <p class="cclass">CLASS: GAME DESIGNER + 3D ARTIST // LEVEL: 1</p>
+        <p class="cbio">Game Designer with a background in Business Analytics and Game Art &amp; Design, based in Berlin, Germany. I bridge creative vision and data-driven decisions — designing game economies, AI systems, progression curves, and immersive 3D worlds that keep players engaged long-term.<br><br>Passionate about idle &amp; sculpting worlds from nothing, breathing life into geometry, and building realms that feel more real than reality.</p>
+        <div class="cstats">
+          <div class="csr"><div class="csr-n">GAME ECONOMY</div><div class="csr-v">95</div><div class="csr-bar"><div class="csr-fill" data-w="0.95"></div></div></div>
+          <div class="csr"><div class="csr-n">3D MODELING</div><div class="csr-v">90</div><div class="csr-bar"><div class="csr-fill" data-w="0.90"></div></div></div>
+          <div class="csr"><div class="csr-n">DATA ANALYTICS</div><div class="csr-v">85</div><div class="csr-bar"><div class="csr-fill" data-w="0.85"></div></div></div>
+          <div class="csr"><div class="csr-n">UE5 BLUEPRINTS</div><div class="csr-v">80</div><div class="csr-bar"><div class="csr-fill" data-w="0.80"></div></div></div>
+          <div class="csr"><div class="csr-n">MOTION GRAPHICS</div><div class="csr-v">88</div><div class="csr-bar"><div class="csr-fill" data-w="0.88"></div></div></div>
+          <div class="csr"><div class="csr-n">PRODUCT DESIGN</div><div class="csr-v">82</div><div class="csr-bar"><div class="csr-fill" data-w="0.82"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 
 
-        <!-- About / Stats -->
-        <section id="about" style="background: rgba(255,255,255,0.02);">
-            <div class="container">
-                <div class="featured-layout">
-                    <div class="featured-content">
-                        <span class="subtitle">Background</span>
-                        <h2 class="section-title" style="margin-top:0;">Beyond the Vertex</h2>
-                        <p style="color: #ccc; margin-bottom: 1.5rem;">
-                            With alomost a year industry experience, I've transitioned from graphic design to full 3D production. I am interested to explore, create world class productsand experiences with my creative, technical skills and analytical skills. 
-                        </p>
-                        <div style="display: flex; gap: 3rem; margin-top: 2rem;">
-                            <div>
-                                <h3 style="font-size: 2.5rem; color: var(--accent-glow);"></h3>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;"></p>
-                            </div>
-                            <div>
-                                <h3 style="font-size: 2.5rem; color: var(--accent-glow);"></h3>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;"></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="featured-image">
-                        <img src="https://picsum.photos/seed/workspace/800/800.jpg" alt="Artist Workspace">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact -->
-        <section id="contact" class="contact-section">
-            <div class="container contact-wrapper">
-                <span class="subtitle">Connect</span>
-                <h2 class="display-text" style="margin-bottom: 1rem;">Let's Create Together</h2>
-                <p class="contact-text">
-                    My inbox is always open for creative collaboration. Please contact on gmail.
-                </p>
-                <a href="mailto:kushlu7244@gmail.com" class="email-link">kushlu7244@gmail.com</a>
-            </div>
-
-            <div class="social-links">
-
-            <a href="https://www.artstation.com/starkrey" target="_blank" aria-label="ArtStation">
-                <img src="https://cdnb.artstation.com/p/marketplace/presentation_assets/002/468/233/medium/file.jpg?1676997546" alt="ArtStation">
-            </a>
-
-            <a href="https://www.linkedin.com/in/saiganesh-p/" target="_blank" aria-label="LinkedIn">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/960px-LinkedIn_logo_initials.png" alt="LinkedIn">
-            </a>
-
-            <a href="https://www.instagram.com/spacenaturestencil/" target="_blank" aria-label="Instagram">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
-            </a>
-
-            </div>
-        </section>
-    </main>
-
-
-    
-
-
-
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>Designed by</p>
-            <p>Saiganesh</p>
+<!-- 3D VIEWER -->
+<section id="viewer3d" aria-labelledby="h-viewer">
+  <div class="sc">
+    <div class="sh rv">
+      <div><div class="ey">// 02 · INTERACTIVE 3D VIEWER</div><h2 class="st" id="h-viewer">3D MODEL SHOWCASE</h2></div>
+      <div class="sl"></div><div class="sn">02 / 06</div>
+    </div>
+    <h2 class="st" id="h-viewer">UPDATING SOON</h2>
+    <div class="vlayout">
+      <div id="mwrap" role="img" aria-label="Interactive 3D model viewer. Drag to rotate, scroll to zoom.">
+        <canvas id="mc"></canvas>
+        <div class="mhud" aria-hidden="true">&gt; MODEL VIEWER v2.4<br>&gt; RENDERER: WebGL<br>&gt; STATUS: <span style="color:var(--green)">ACTIVE</span></div>
+        <div class="mhud-br" id="minfo" aria-hidden="true">POLY COUNT: ~8K&#10;FORMAT: GLB&#10;CATEGORY: VEHICLE</div>
+        <div class="mhint" aria-hidden="true">DRAG TO ROTATE · SCROLL TO ZOOM</div>
+      </div>
+      <div class="vinfo">
+        <div>
+          <div class="ey" style="margin-bottom:.75rem">LOAD MODEL</div>
+          <div class="msel" role="group" aria-label="Model selector">
+            <button class="mbtn active" data-model="0" aria-pressed="true"><span class="ico" aria-hidden="true">🛸</span><div><div>SPACECRAFT (DEMO)</div><div style="font-size:.55rem;color:var(--muted);margin-top:.3rem">Reference · Sci-fi vessel</div></div></button>
+            <button class="mbtn" data-model="1" aria-pressed="false"><span class="ico" aria-hidden="true">⚔️</span><div><div>WEAPON ASSET (DEMO)</div><div style="font-size:.55rem;color:var(--muted);margin-top:.3rem">Reference · Game-ready</div></div></button>
+            <button class="mbtn" data-model="2" aria-pressed="false"><span class="ico" aria-hidden="true">🧊</span><div><div>CHARACTER (DEMO)</div><div style="font-size:.55rem;color:var(--muted);margin-top:.3rem">Reference · Low poly</div></div></button>
+            <button class="mbtn" data-model="3" aria-pressed="false" style="border-color:rgba(0,212,255,.3);color:rgba(0,212,255,.6)"><span class="ico" aria-hidden="true">📁</span><div><div style="color:rgba(0,212,255,.7)">YOUR MODEL HERE</div><div style="font-size:.55rem;color:var(--muted);margin-top:.3rem">Upload .glb / .gltf</div></div></button>
+          </div>
         </div>
-    </footer>
+        
+        
+    </div>
+  </div>
+</section>
 
-    <!-- Minimal Script for Scroll Interactions -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
+<!-- PROJECTS -->
+<section id="projects" aria-labelledby="h-projects">
+  <div class="sc">
+    <div class="sh rv">
+      <div><div class="ey">// 03 · QUEST LOG</div><h2 class="st" id="h-projects">PROJECTS</h2></div>
+      <div class="sl"></div><div class="sn">03 / 06</div>
+    </div>
+    <div class="qgrid">
+      <article class="qcard feat rv">
+        <div class="qimg">
+          <img src="https://cdna.artstation.com/p/assets/images/images/096/754/854/large/stark-rey-screenshot-2026-02-27-220841.jpg?1772210680"
+               alt="Souls-like combat prototype" loading="lazy" width="800" height="600" decoding="async">
+        </div>
+        <div>
+          <div class="qtype">MAIN QUEST · SOLO DEVELOPER · 2025–PRESENT</div>
+          <h3 class="qtitle">SOULS-LIKE COMBAT PROTOTYPE</h3>
+          <p class="qdesc">Dark fantasy action prototype inspired by Souls-style combat — stamina-based melee, tactical enemy AI, and immersive world exploration built in Unreal Engine 5.</p>
+          <ul class="qobj">
+            <li>Full progression system: enemy scaling, difficulty pacing, combat risk balance</li>
+            <li>AI behavior trees controlling decision logic and combat responsiveness</li>
+            <li>Challenge-reward optimization loops iterated through playtesting</li>
+          </ul>
+          <div class="qtags"><span class="qtag">UE5</span><span class="qtag">AI BEHAVIOR TREES</span><span class="qtag">PROGRESSION DESIGN</span><span class="qtag">BALANCING</span></div>
+          <a href="https://www.linkedin.com/posts/saiganesh-p_souls-like-gamea-world-exploration-and-adventure-ugcPost-7425082901047705602-IQZJ"
+             class="qlink" target="_blank" rel="noopener noreferrer">VIEW PROGRESS →</a>
+        </div>
+      </article>
+      <article class="qcard feat rv">
+        <div class="qimg">
+          <img src="https://cdna.artstation.com/p/assets/images/images/096/692/666/large/stark-rey-screenshot-2026-02-24-013156.jpg?1772052367"
+               alt="Undead and Unknown — dual-faction FPS game" loading="lazy" width="800" height="600" decoding="async">
+        </div>
+        <div>
+          <div class="qtype">GAME DESIGN PROJECT · SOLO DEVELOPER · 2025</div>
+          <h3 class="qtitle">UNDEAD AND UNKNOWN</h3>
+          <p class="qdesc">First-person dual-faction experience built in Unreal Engine. Players choose between an Alien organism spreading a zombie virus through a high-security laboratory or a Robot War Machine deployed to eradicate the outbreak — two contrasting perspectives within the same narrative space.</p>
+          <ul class="qobj">
+            <li>Designed core narrative framework, faction motivations, and environmental storytelling</li>
+            <li>Developed immersive laboratory world design with strong spatial gameplay logic</li>
+            <li>Implemented AI behavior trees to create reactive, personality-driven enemy combat</li>
+            <li>Built gameplay systems and interactions using Unreal Engine Blueprint systems</li>
+            <li>Created 3D assets and environment pipelines using Blender and Unreal Engine</li>
+          </ul>
+          <div class="qtags"><span class="qtag">UNREAL ENGINE</span><span class="qtag">BLUEPRINT SYSTEMS</span><span class="qtag">AI BEHAVIOR TREES</span><span class="qtag">BLENDER</span><span class="qtag">ENVIRONMENT DESIGN</span></div>
+          <a href="https://www.linkedin.com/posts/saiganesh-p_souls-like-gamea-world-exploration-and-adventure-ugcPost-7425082901047705602-IQZJ" class="qlink" target="_blank" rel="noopener noreferrer">VIEW PROGRESS →</a>
+        </div>
+      </article>
+      <article class="qcard feat rv">
+        <div class="qimg">
+          <img src="https://cdna.artstation.com/p/assets/images/images/096/692/666/large/stark-rey-screenshot-2026-02-24-013156.jpg?1772052367"
+               alt="Quantum Void — space exploration game" loading="lazy" width="800" height="600" decoding="async">
+        </div>
+        <div>
+          <div class="qtype">GAME DESIGN PROJECT · SOLO DEVELOPER · 2025</div>
+          <h3 class="qtitle">QUANTUM VOID</h3>
+          <p class="qdesc">A space and time exploration game inspired by cinematic sci-fi themes, unveiling vast environments and a challenging atmospheric experience.</p>
+          <ul class="qobj">
+            <li>Designed player jet-based movement mechanics enabling aerial traversal</li>
+            <li>Created responsive world systems that dynamically generate environmental chaos and challenge</li>
+            <li>Built a complete game-ready experience including UI, main menu, gameplay systems, save system, and graphics settings</li>
+          </ul>
+          <div class="qtags"><span class="qtag">UNREAL ENGINE</span><span class="qtag">SYSTEM DESIGN</span><span class="qtag">UI DESIGN</span><span class="qtag">BLENDER</span><span class="qtag">ENVIRONMENT DESIGN</span></div>
+          <a href="https://www.linkedin.com/posts/saiganesh-p_souls-like-gamea-world-exploration-and-adventure-ugcPost-7425082901047705602-IQZJ" class="qlink" target="_blank" rel="noopener noreferrer">VIEW PROGRESS →</a>
+        </div>
+      </article>
+      <article class="qcard rv">
+        <div class="qtype">SIDE QUEST · DATA ENGINEERING</div>
+        <h3 class="qtitle">GAME ANALYTICS DASHBOARD</h3>
+        <p class="qdesc">Interactive analytics dashboard via RAWG API. Analyzes player trends, genre lifecycle patterns, and engagement distribution across thousands of titles.</p>
+        <ul class="qobj">
+          <li>KPI-focused views to interpret popularity shifts and monetization potential</li>
+          <li>Genre lifecycle pattern recognition from live market data</li>
+          <li>Behavioral segmentation and economic forecasting models</li>
+        </ul>
+        <div class="qtags"><span class="qtag">RAWG API</span><span class="qtag">PYTHON</span><span class="qtag">POWER BI</span><span class="qtag">KPI ANALYSIS</span></div>
+      </article>
+    </div>
+  </div>
+</section>
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
+<!-- GALLERY -->
+<section id="gallery" aria-labelledby="h-gallery">
+  <div class="sc">
+    <div class="sh rv">
+      <div><div class="ey">// 04 · RENDER GALLERY</div><h2 class="st" id="h-gallery">3D ART PORTFOLIO</h2></div>
+      <div class="sl"></div><div class="sn">04 / 06</div>
+    </div>
+    <div class="ggrid rv">
+      <div class="gi"><img src="https://cdna.artstation.com/p/assets/images/images/056/192/808/large/stark-rey-copter-ev-r-3-1.jpg?1668661171" alt="Dure Helicopter — hard surface vehicle" loading="lazy" width="600" height="800" decoding="async"><div class="go"><div class="gi-tag">HARD SURFACE</div><div class="gi-title">DURE HELICOPTER</div></div></div>
+      <div class="gi"><img src="https://cdnb.artstation.com/p/assets/images/images/095/529/195/large/stark-rey-bossr1.jpg?1768829766" alt="Ethereal Guardian — fantasy character" loading="lazy" width="600" height="800" decoding="async"><div class="go"><div class="gi-tag">CHARACTER</div><div class="gi-title">ETHEREAL GUARDIAN</div></div></div>
+      <div class="gi"><img src="https://cdnb.artstation.com/p/assets/images/images/056/280/499/large/stark-rey-hanuman-weapon-2.jpg?1668869844" alt="Ancient Weapon — Hindu mythology inspired" loading="lazy" width="600" height="800" decoding="async"><div class="go"><div class="gi-tag">WEAPON DESIGN</div><div class="gi-title">ANCIENT WEAPON</div></div></div>
+      <div class="gi"><img src="https://cdna.artstation.com/p/assets/images/images/055/972/194/large/stark-rey-toxic-flame-thrower-04-img.jpg?1668157302" alt="Toxic Flame Thrower — game ready asset" loading="lazy" width="600" height="800" decoding="async"><div class="go"><div class="gi-tag">GAME ASSET</div><div class="gi-title">TOXIC FLAME THROWER</div></div></div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem">
+      <a href="https://www.artstation.com/starkrey" target="_blank" rel="noopener noreferrer" class="btn-o">VIEW FULL ARTSTATION →</a>
+    </div>
+  </div>
+</section>
 
-            const animatedElements = document.querySelectorAll('.glass-card, .skill-glass, .featured-content');
-            
-            animatedElements.forEach((el, index) => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-                // Staggered delay
-                el.style.transitionDelay = `${index * 0.1}s`; 
-                observer.observe(el);
-            });
+<!-- TOOLS -->
+<section id="tools" aria-labelledby="h-tools">
+  <div class="sc">
+    <div class="sh rv">
+      <div><div class="ey">// 05 · EQUIPMENT LOADOUT</div><h2 class="st" id="h-tools">TOOLS &amp; SOFTWARE</h2></div>
+      <div class="sl"></div><div class="sn">05 / 06</div>
+    </div>
+    <div class="tgrid rv">
+      <div class="tcell"><img class="timg" src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Blender_logo_no_text.svg" alt="Blender" width="48" height="48" loading="lazy"><div class="tname">Blender</div></div>
+      <div class="tcell"><img class="timg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Autodesk_Maya_version_2023_icon.jpg/640px-Autodesk_Maya_version_2023_icon.jpg" alt="Autodesk Maya" width="48" height="48" loading="lazy"><div class="tname">Maya</div></div>
+      <div class="tcell"><img class="timg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqwXCOFveGcFhVBRgN3O_fGuDQAgeqF1FYdg&s" alt="ZBrush" width="48" height="48" loading="lazy"><div class="tname">ZBrush</div></div>
+      <div class="tcell"><img class="timg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSRVRIxvNG43DyHJL68FAZ5Djqw2MbRllmnA&s" alt="Substance Painter" width="48" height="48" loading="lazy"><div class="tname">Substance Painter</div></div>
+      <div class="tcell"><img class="timg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Unreal_Engine_Logo_%28new_typeface%29.svg/960px-Unreal_Engine_Logo_%28new_typeface%29.svg.png" alt="Unreal Engine 5" width="48" height="48" loading="lazy"><div class="tname">Unreal Engine 5</div></div>
+      <div class="tcell"><img class="timg" src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg" alt="Adobe After Effects" width="48" height="48" loading="lazy"><div class="tname">After Effects</div></div>
+      <div class="tcell"><img class="timg" src="https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg" alt="Adobe Photoshop" width="48" height="48" loading="lazy"><div class="tname">Photoshop</div></div>
+      <div class="tcell"><img class="timg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Figma-logo.svg/1365px-Figma-logo.svg.png" alt="Figma" width="48" height="48" loading="lazy"><div class="tname">Figma</div></div>
+    </div>
+  </div>
+</section>
 
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
-        });
-    </script>
+<!-- EXPERIENCE + EDUCATION -->
+<section id="experience" aria-labelledby="h-exp">
+  <div class="sc">
+    <div class="xe-grid">
+      <div>
+        <div class="sh rv" style="margin-bottom:3rem">
+          <div><div class="ey">// CAREER LOG</div><h2 class="st" id="h-exp" style="font-size:1.8rem">EXPERIENCE</h2></div>
+        </div>
+        <div class="tl">
+          <div class="tl-item rv">
+            <div class="tl-meta">MAY 2020 – JAN 2021 · HYDERABAD</div>
+            <div class="tl-role">MOTION GRAPHIC ARTIST</div>
+            <div class="tl-co">Limped Frog (Palette69.design)</div>
+            <p class="tl-desc">A role that quickly taught me how to balance creative ambition with brand consistency under real deadlines.</p>
+            <P class="tl-desc">•	Designed high-impact campaign visuals and layout-driven content for digital platforms including social media and web, always keeping brand identity and messaging at the center of every decision.</P>
+            <P class="tl-desc">•	Created motion graphics and animations for clients including Byju's QBS Learning and Bayer Crops, working in After Effects and Premiere Pro to bring ideas to life across different formats.</P>
+            <P class="tl-desc">•	Collaborated closely with editorial, creative, and production teams to translate abstract concepts into polished, publish-ready visual outputs — learning quickly how to give and receive design feedback constructively.</P>
+            <P class="tl-desc">•	Contributed significantly to 3D and visual workflows, improving overall production efficiency and ensuring asset consistency through organized project management.</P>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sh rv" style="margin-bottom:3rem">
+          <div><div class="ey">// TRAINING ARC</div><h2 class="st" style="font-size:1.8rem">EDUCATION</h2></div>
+        </div>
+        <div class="edu-cards">
+          <div class="ecard rv"><div class="eperiod">AUG 2023 – APR 2025</div><div class="edeg">PGDM · Business Analytics</div><div class="esc">Siva Sivani Institute of Management (AICTE)</div></div>
+          <div class="ecard rv"><div class="eperiod">JUL 2019 – MAY 2023</div><div class="edeg">Bachelor of Arts · Game Art &amp; Design</div><div class="esc">Digiquest Academy (JNAFAU)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" aria-labelledby="h-contact">
+  <div class="sc">
+    <div class="sh rv">
+      <div><div class="ey">// 06 · TRANSMISSION</div><h2 class="st" id="h-contact">CONNECT</h2></div>
+      <div class="sl"></div><div class="sn">06 / 06</div>
+    </div>
+    <div class="clayout">
+      <div class="rv">
+        <div class="cbig">LET'S BUILD<br><span class="ac">SOMETHING</span><br>EPIC.</div>
+        <p style="color:var(--muted);font-size:1rem;line-height:1.7;max-width:400px">Open to game design roles, 3D art commissions, and creative collaboration. Based in Berlin — remote-friendly.</p>
+        <div class="socrow">
+          <a href="https://www.artstation.com/starkrey" target="_blank" rel="noopener noreferrer" class="socbtn">ARTSTATION</a>
+          <a href="https://www.linkedin.com/in/saiganesh-p/" target="_blank" rel="noopener noreferrer" class="socbtn">LINKEDIN</a>
+          <a href="https://www.instagram.com/spacenaturestencil/" target="_blank" rel="noopener noreferrer" class="socbtn">INSTAGRAM</a>
+        </div>
+      </div>
+      <div class="rv">
+        <ul class="clist">
+            <li class="ci"><span class="ci-l">EMAIL</span><span class="ci-v"><a href="mailto:kushlu7244@gmail.com">kushlu7244@gmail.com</a></span></li>
+            <li class="ci"><span class="ci-l">PHONE</span><span class="ci-v">+49 1520 7085705</span></li>
+            <li class="ci"><span class="ci-l">LOCATION</span><span class="ci-v">Berlin, Germany</span></li>
+            <li class="ci"><span class="ci-l">STATUS</span><span class="ci-v" style="color:var(--green)">● AVAILABLE FOR HIRE</span></li>
+            <li class="ci"><span class="ci-l">SITE</span><span class="ci-v"><a href="https://saiganesh079.github.io/psaiganesh_portfolio/" target="_blank" rel="noopener noreferrer">psaiganesh_portfolio →</a></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="flogo">SAIGANESH.PENTA</div>
+  <div class="fcopy">© 2025 SAIGANESH PENTA · GAME DESIGNER &amp; 3D ARTIST</div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--                  ----------------------------------------------------------------------------------------->
+<!-- SCRIPTS — all non-blocking -->
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+/* ── MOBILE NAV ── */
+const burger = $('#burger'), navLinks = $('#nav-links');
+burger.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  burger.setAttribute('aria-expanded', String(open));
+});
+navLinks.addEventListener('click', e => {
+  if (e.target.tagName === 'A') {
+    navLinks.classList.remove('open');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  }
+});
+
+/* ── CUSTOM CURSOR (desktop only) ── */
+if (window.matchMedia('(hover:hover)').matches) {
+  const cur = $('#cursor'), dot = $('#cursor-dot');
+  document.addEventListener('mousemove', e => {
+    const t = `translate(${e.clientX}px,${e.clientY}px)`;
+    cur.style.transform = `translate(${e.clientX - 10}px,${e.clientY - 10}px)`;
+    dot.style.transform = `translate(${e.clientX - 2}px,${e.clientY - 2}px)`;
+  }, { passive: true });
+  $$('a,button,.gi,.qcard,.tcell,.sktag').forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('hov'), { passive: true });
+    el.addEventListener('mouseleave', () => cur.classList.remove('hov'), { passive: true });
+  });
+}
+
+/* ── INTERSECTION OBSERVER — REVEAL + STAT BARS ── */
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      // Trigger stat bar fills on the csheet element
+      e.target.querySelectorAll('.csr-fill').forEach(bar => {
+        bar.style.transform = `scaleX(${bar.dataset.w || 1})`;
+      });
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  $$('.rv').forEach(el => io.observe(el));
+}
+
+/* ── THROTTLED SCROLL — NAV ACTIVE ── */
+{
+  const sections = $$('section[id]');
+  let pending = false;
+  window.addEventListener('scroll', () => {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      sections.forEach(s => {
+        const link = $$(`.nav-links a[href="#${s.id}"]`)[0];
+        if (link) link.classList.toggle('active', y >= s.offsetTop - 100 && y < s.offsetTop + s.offsetHeight - 100);
+      });
+      pending = false;
+    });
+  }, { passive: true });
+}
+
+/* ── THREE.JS — wait for defer load ── */
+window.addEventListener('load', () => {
+  if (!window.THREE) return;
+  const { WebGLRenderer, Scene, PerspectiveCamera, BufferGeometry, BufferAttribute,
+    PointsMaterial, Points, Color, MeshBasicMaterial, MeshPhongMaterial,
+    OctahedronGeometry, IcosahedronGeometry, CylinderGeometry, BoxGeometry,
+    SphereGeometry, TorusKnotGeometry, Mesh, Group, AmbientLight, DirectionalLight,
+    GridHelper, Clock } = THREE;
+
+  /* ── HERO PARTICLE FIELD ── */
+  (() => {
+    const canvas = $('#hero-canvas');
+    if (!canvas) return;
+    const W = window.innerWidth, H = window.innerHeight;
+    const renderer = new WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    renderer.setSize(W, H);
+    renderer.setClearColor(0, 0);
+
+    const scene = new Scene();
+    const cam = new PerspectiveCamera(60, W / H, 0.1, 2000);
+    cam.position.z = 800;
+
+    const COUNT = W < 768 ? 1200 : 3000;
+    const geo = new BufferGeometry();
+    const pos = new Float32Array(COUNT * 3);
+    const col = new Float32Array(COUNT * 3);
+    const c1 = new Color(0xff6b00), c2 = new Color(0x00d4ff), c3 = new Color(0xffffff);
+    for (let i = 0; i < COUNT; i++) {
+      pos[i*3]   = (Math.random() - .5) * 2000;
+      pos[i*3+1] = (Math.random() - .5) * 2000;
+      pos[i*3+2] = (Math.random() - .5) * 1000;
+      const c = Math.random() < .7 ? c1 : Math.random() < .5 ? c2 : c3;
+      col[i*3] = c.r; col[i*3+1] = c.g; col[i*3+2] = c.b;
+    }
+    geo.setAttribute('position', new BufferAttribute(pos, 3));
+    geo.setAttribute('color', new BufferAttribute(col, 3));
+    const pts = new Points(geo, new PointsMaterial({ size: 2, vertexColors: true, transparent: true, opacity: .7 }));
+    scene.add(pts);
+
+    const wf1 = new Mesh(new OctahedronGeometry(180, 2), new MeshBasicMaterial({ color: 0xff6b00, wireframe: true, transparent: true, opacity: .08 }));
+    wf1.position.set(300, 0, -200); scene.add(wf1);
+    const wf2 = new Mesh(new IcosahedronGeometry(90, 1), new MeshBasicMaterial({ color: 0x00d4ff, wireframe: true, transparent: true, opacity: .12 }));
+    wf2.position.set(-200, 150, -100); scene.add(wf2);
+
+    let mx = 0, my = 0;
+    window.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5) * .5; my = (e.clientY / innerHeight - .5) * .5; }, { passive: true });
+
+    let rt;
+    window.addEventListener('resize', () => {
+      clearTimeout(rt);
+      rt = setTimeout(() => { const W = innerWidth, H = innerHeight; cam.aspect = W / H; cam.updateProjectionMatrix(); renderer.setSize(W, H); }, 200);
+    });
+
+    const clk = new Clock();
+    const tick = () => {
+      requestAnimationFrame(tick);
+      const t = clk.getElapsedTime();
+      pts.rotation.y = t * .02; pts.rotation.x = t * .01;
+      wf1.rotation.x = t * .3; wf1.rotation.y = t * .5;
+      wf2.rotation.y = -t * .4; wf2.rotation.z = t * .2;
+      cam.position.x += (mx * 100 - cam.position.x) * .05;
+      cam.position.y += (-my * 80 - cam.position.y) * .05;
+      cam.lookAt(scene.position);
+      renderer.render(scene, cam);
+    };
+    tick();
+  })();
+
+  /* ── 3D MODEL VIEWER ── */
+  (() => {
+    const canvas = $('#mc'), wrap = $('#mwrap');
+    if (!canvas || !wrap) return;
+
+    const renderer = new WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+    renderer.setClearColor(0x10101c, 1);
+
+    const scene = new Scene();
+    const cam = new PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 100);
+    cam.position.set(0, 2, 6);
+    cam.lookAt(0, 0, 0);
+
+    scene.add(new AmbientLight(0x404060, .5));
+    const kl = new DirectionalLight(0xff6b00, 2); kl.position.set(5, 5, 5); scene.add(kl);
+    const fl = new DirectionalLight(0x00d4ff, 1); fl.position.set(-5, 3, -5); scene.add(fl);
+    const rl = new DirectionalLight(0xffffff, .5); rl.position.set(0, -5, -5); scene.add(rl);
+
+    const grid = new GridHelper(20, 20, 0xff6b00, 0x222240);
+    grid.material.opacity = .3; grid.material.transparent = true; grid.position.y = -2;
+    scene.add(grid);
+
+    // Shared materials — prevents duplicate GPU uploads
+    const mSteel = new MeshPhongMaterial({ color: 0x334455, shininess: 80 });
+    const mBlue  = new MeshPhongMaterial({ color: 0x667788, shininess: 120 });
+    const mChar  = new MeshPhongMaterial({ color: 0x8899aa, shininess: 50 });
+    const mGlow  = new MeshBasicMaterial({ color: 0xff6b00 });
+    const mEye   = new MeshBasicMaterial({ color: 0x00d4ff });
+    const mWf    = new MeshBasicMaterial({ color: 0xff6b00, wireframe: true, transparent: true, opacity: .15 });
+
+    // GLTF loader (examples/js) — uses global THREE.GLTFLoader
+    const loader = (typeof THREE !== 'undefined' && THREE.GLTFLoader) ? new THREE.GLTFLoader() : null;
+
+    const defs = [
+      { info: 'POLY COUNT: ~8K\nFORMAT: GLB\nCATEGORY: VEHICLE', build() {
+        const g = new Group();
+        if (loader) {
+          loader.load('./models/vehicle.glb', gltf => { g.add(gltf.scene); }, undefined, err => { console.error('vehicle.glb load error', err); });
+        } else {
+          // fallback procedural placeholder
+          const b = new Mesh(new CylinderGeometry(.3,.6,2.5,8), mSteel); b.rotation.z = Math.PI/2; g.add(b);
+        }
+        return g;
+      }},
+      { info: 'POLY COUNT: ~4K\nFORMAT: GLB\nCATEGORY: WEAPON', build() {
+        const g = new Group();
+        if (loader) {
+          loader.load('./models/weapon.glb', gltf => { g.add(gltf.scene); }, undefined, err => { console.error('weapon.glb load error', err); });
+        } else {
+          const bl = new Mesh(new BoxGeometry(.08,3,.06), mBlue); bl.position.y=1; g.add(bl);
+        }
+        return g;
+      }},
+      { info: 'POLY COUNT: ~2K\nFORMAT: GLB\nCATEGORY: CHARACTER', build() {
+        const g = new Group();
+        if (loader) {
+          loader.load('./models/character.glb', gltf => { g.add(gltf.scene); }, undefined, err => { console.error('character.glb load error', err); });
+        } else {
+          const hd = new Mesh(new BoxGeometry(.7,.7,.7), mChar); hd.position.y=1.5; g.add(hd);
+        }
+        return g;
+      }},
+      { info: 'YOUR MODEL\nFORMAT: .GLB/.GLTF\nSEE INSTRUCTIONS', build() {
+        const g = new Group();
+        if (loader) {
+          loader.load('./models/your-model.glb', gltf => { g.add(gltf.scene); }, undefined, err => { console.error('your-model.glb load error', err); });
+        } else {
+          g.add(new Mesh(new TorusKnotGeometry(1,.3,64,8), new MeshPhongMaterial({color:0x00d4ff,wireframe:true,transparent:true,opacity:.4})));
+        }
+        return g;
+      }}
+    ];
+
+    let current = null;
+    const infoEl = $('#minfo');
+
+    function loadModel(i) {
+      if (current) { scene.remove(current); current.traverse(c => c.isMesh && c.geometry.dispose()); }
+      current = defs[i].build();
+      scene.add(current);
+      if (infoEl) infoEl.textContent = defs[i].info;
+    }
+    loadModel(0);
+
+    $$('.mbtn').forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        $$('.mbtn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+        btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
+        loadModel(i);
+      });
+    });
+
+    // Unified pointer/touch orbit
+    let drag = false, px = 0, py = 0, rotX = 0, rotY = 0, zoom = 6;
+    const getXY = e => e.touches ? [e.touches[0].clientX, e.touches[0].clientY] : [e.clientX, e.clientY];
+    wrap.addEventListener('mousedown',  e => { drag=true; [px,py]=getXY(e); });
+    wrap.addEventListener('touchstart', e => { drag=true; [px,py]=getXY(e); }, { passive:true });
+    window.addEventListener('mouseup',  () => drag=false);
+    window.addEventListener('touchend', () => drag=false);
+    window.addEventListener('mousemove', e => { if(!drag) return; const [cx,cy]=getXY(e); rotY+=(cx-px)*.01; rotX+=(cy-py)*.01; px=cx; py=cy; }, { passive:true });
+    window.addEventListener('touchmove', e => { if(!drag) return; const [cx,cy]=getXY(e); rotY+=(cx-px)*.01; rotX+=(cy-py)*.01; px=cx; py=cy; }, { passive:true });
+    wrap.addEventListener('wheel', e => { zoom=Math.max(2,Math.min(12,zoom+e.deltaY*.01)); e.preventDefault(); }, { passive:false });
+
+    // ResizeObserver for viewer panel
+    new ResizeObserver(() => {
+      const W=wrap.clientWidth, H=wrap.clientHeight;
+      cam.aspect=W/H; cam.updateProjectionMatrix();
+      renderer.setSize(W,H);
+    }).observe(wrap);
+
+    const clk = new Clock();
+    const tick = () => {
+      requestAnimationFrame(tick);
+      const t = clk.getElapsedTime();
+      if (current) { current.rotation.y = rotY + t*.4; current.rotation.x = rotX; current.position.y = Math.sin(t*.8)*.15; }
+      cam.position.z = zoom;
+      renderer.render(scene, cam);
+    };
+    tick();
+  })();
+});
+</script>
 </body>
 </html>
