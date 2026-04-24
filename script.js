@@ -1,403 +1,757 @@
-'use strict';
+:root {
+  --bg: #f3f0e8;
+  --bg-alt: #e8e2d5;
+  --surface: #fbf8f1;
+  --text: #111111;
+  --muted: #5f5a52;
+  --border: #1b1b1b;
+  --rule: rgba(17, 17, 17, 0.18);
+  --accent: #c61f1f;
+  --accent-soft: rgba(198, 31, 31, 0.12);
+  --shadow: 0 18px 50px rgba(17, 17, 17, 0.08);
+  --font-sans: "Archivo", "Arial Narrow", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --max-width: 1360px;
+}
 
-const $ = s => document.querySelector(s);
-const $$ = s => [...document.querySelectorAll(s)];
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-/* ══════════════════════════════════════════
-   MOBILE NAV
-══════════════════════════════════════════ */
-const burger = $('#burger');
-const navLinks = $('#nav-links');
+html {
+  scroll-behavior: smooth;
+}
 
-burger.addEventListener('click', () => {
-  const open = navLinks.classList.toggle('open');
-  burger.classList.toggle('open', open);
-  burger.setAttribute('aria-expanded', String(open));
-});
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    linear-gradient(rgba(17, 17, 17, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 17, 17, 0.035) 1px, transparent 1px),
+    var(--bg);
+  background-size: 32px 32px, 32px 32px, auto;
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
 
-navLinks.addEventListener('click', e => {
-  if (e.target.tagName === 'A') {
-    navLinks.classList.remove('open');
-    burger.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+p,
+li {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.page-frame {
+  position: fixed;
+  inset: 18px;
+  border: 1px solid rgba(17, 17, 17, 0.15);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.container {
+  width: min(var(--max-width), calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  backdrop-filter: blur(14px);
+  background: rgba(243, 240, 232, 0.88);
+  border-bottom: 1px solid var(--rule);
+}
+
+.topbar {
+  min-height: 78px;
+  display: grid;
+  grid-template-columns: 1.2fr auto 1.6fr auto;
+  gap: 16px;
+  align-items: center;
+  width: min(var(--max-width), calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.brand,
+.menu a,
+.availability,
+.menu-toggle,
+.eyebrow,
+.section-index,
+.hero-kicker,
+.hero-index,
+.project-meta,
+.tagline,
+.resource-type,
+.contact-row span:first-child,
+.meta-line {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.brand {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+}
+
+.menu a {
+  text-decoration: none;
+  position: relative;
+}
+
+.menu a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+
+.menu a:hover::after,
+.menu a.is-active::after {
+  transform: scaleX(1);
+}
+
+.availability {
+  padding: 8px 0 8px 18px;
+  border-left: 1px solid var(--rule);
+  color: var(--accent);
+}
+
+.menu-toggle {
+  display: none;
+  border: 1px solid var(--border);
+  background: transparent;
+  padding: 10px 12px;
+}
+
+.hero {
+  padding: 48px 0 72px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+  align-items: end;
+  min-height: calc(100vh - 126px);
+}
+
+.hero-kicker {
+  grid-column: 1 / span 3;
+  align-self: start;
+  padding-top: 40px;
+}
+
+.hero-title-block {
+  grid-column: 1 / span 7;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.hero-title-block h1,
+.section-heading h2,
+.contact-intro h3,
+.project-copy h3,
+.profile-card p,
+.education-card h3,
+.link-panel h3 {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.hero-title-block h1 {
+  font-size: clamp(3.8rem, 10vw, 9rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.hero-index {
+  margin: 18px 0 0;
+  color: var(--accent);
+}
+
+.hero-summary {
+  grid-column: 8 / span 5;
+  align-self: center;
+  padding: 32px 0 0;
+}
+
+.lead {
+  font-size: 1.35rem;
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+.hero-actions,
+.gallery-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.button {
+  border: 1px solid var(--border);
+  padding: 14px 18px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  background: transparent;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.button:hover,
+.button:focus-visible,
+.text-link:hover,
+.resource-link:hover {
+  transform: translateY(-2px);
+}
+
+.button-solid {
+  background: var(--text);
+  color: var(--surface);
+}
+
+.button:hover,
+.button:focus-visible {
+  background: var(--accent-soft);
+}
+
+.button-solid:hover,
+.button-solid:focus-visible {
+  background: var(--accent);
+  color: #fff;
+}
+
+.hero-facts {
+  grid-column: 8 / span 5;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.fact-card,
+.profile-card,
+.skills-panel,
+.discipline-card,
+.link-panel,
+.resource-link,
+.project-card,
+.education-card,
+.contact-row,
+.tool-cell {
+  background: rgba(251, 248, 241, 0.82);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.fact-card {
+  padding: 18px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fact-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.fact-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.section {
+  padding: 84px 0;
+}
+
+.section-alt {
+  background: linear-gradient(180deg, rgba(232, 226, 213, 0.65), rgba(251, 248, 241, 0.4));
+}
+
+.section-heading {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 34px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.section-index {
+  margin: 4px 0 0;
+  color: var(--accent);
+}
+
+.section-heading h2 {
+  font-size: clamp(2.25rem, 4vw, 4.6rem);
+  text-transform: uppercase;
+  line-height: 0.95;
+}
+
+.about-layout,
+.link-layout,
+.timeline-layout,
+.contact-layout {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+.profile-card {
+  grid-column: 1 / span 3;
+  padding: 24px;
+}
+
+.bio-block {
+  grid-column: 4 / span 5;
+  padding: 8px 0;
+}
+
+.skills-panel {
+  grid-column: 9 / span 4;
+  padding: 24px;
+}
+
+.discipline-grid {
+  grid-column: 4 / span 9;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.discipline-card {
+  padding: 22px;
+}
+
+.discipline-card h3,
+.resource-link strong,
+.link-panel h3,
+.project-copy h3,
+.education-card h3,
+.contact-intro h3 {
+  font-size: 1.45rem;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.skill-stat + .skill-stat {
+  margin-top: 18px;
+}
+
+.skill-stat-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.skill-bar {
+  height: 14px;
+  border: 1px solid var(--border);
+  background: rgba(17, 17, 17, 0.06);
+  overflow: hidden;
+}
+
+.skill-bar span {
+  display: block;
+  width: var(--skill-width);
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 800ms ease;
+}
+
+.reveal.is-visible .skill-bar span {
+  transform: scaleX(1);
+}
+
+.link-panel {
+  grid-column: 1 / span 4;
+  padding: 24px;
+}
+
+.link-list {
+  grid-column: 5 / span 8;
+  display: grid;
+  gap: 14px;
+}
+
+.resource-link {
+  display: block;
+  text-decoration: none;
+  padding: 24px;
+}
+
+.resource-type {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 18px;
+}
+
+.project-card {
+  grid-column: span 12;
+  padding: 22px;
+}
+
+.project-card.featured {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  gap: 24px;
+}
+
+.project-card.compact {
+  grid-column: 9 / span 4;
+}
+
+.project-media img {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  object-fit: cover;
+  border: 1px solid var(--rule);
+}
+
+.project-meta,
+.tagline,
+.organization {
+  color: var(--muted);
+}
+
+.project-copy p:first-of-type + h3 {
+  margin-top: 8px;
+}
+
+.text-link {
+  display: inline-block;
+  margin-top: 18px;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.gallery-item {
+  margin: 0;
+  background: rgba(251, 248, 241, 0.82);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.gallery-item img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.gallery-item figcaption {
+  padding: 16px 18px 18px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.gallery-item figcaption span {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--border);
+}
+
+.tool-cell {
+  min-height: 168px;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  gap: 16px;
+  text-align: center;
+  box-shadow: none;
+  border: 0;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.tool-cell:nth-child(4n) {
+  border-right: 0;
+}
+
+.tool-cell img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+}
+
+.tool-cell span {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+}
+
+.timeline-block {
+  grid-column: 1 / span 7;
+}
+
+.education-block {
+  grid-column: 9 / span 4;
+}
+
+.timeline-item,
+.education-card {
+  padding: 24px;
+}
+
+.timeline-item {
+  border-left: 2px solid var(--accent);
+  background: rgba(251, 248, 241, 0.45);
+  padding-left: 22px;
+}
+
+.education-card + .education-card {
+  margin-top: 16px;
+}
+
+.contact-intro {
+  grid-column: 1 / span 5;
+}
+
+.contact-list {
+  grid-column: 6 / span 7;
+  display: grid;
+  gap: 12px;
+}
+
+.contact-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 18px;
+  padding: 16px 18px;
+}
+
+.site-footer {
+  padding: 22px 0 36px;
+  border-top: 1px solid var(--rule);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 1080px) {
+  .topbar {
+    grid-template-columns: 1fr auto auto;
   }
-});
 
-/* ══════════════════════════════════════════
-   CUSTOM CURSOR  (desktop / hover devices only)
-══════════════════════════════════════════ */
-if (window.matchMedia('(hover: hover)').matches) {
-  const cur = $('#cursor');
-  const dot = $('#cursor-dot');
+  .availability {
+    display: none;
+  }
 
-  document.addEventListener('mousemove', e => {
-    cur.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
-    dot.style.transform = `translate(${e.clientX - 2}px, ${e.clientY - 2}px)`;
-  }, { passive: true });
+  .menu-toggle {
+    display: inline-block;
+  }
 
-  $$('a, button, .gi, .qcard, .tcell, .sktag').forEach(el => {
-    el.addEventListener('mouseenter', () => cur.classList.add('hov'),    { passive: true });
-    el.addEventListener('mouseleave', () => cur.classList.remove('hov'), { passive: true });
-  });
+  .menu {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: calc(100% + 10px);
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    padding: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+
+  .menu.is-open {
+    display: flex;
+  }
+
+  .menu a {
+    padding: 12px 8px;
+  }
+
+  .hero-grid,
+  .about-layout,
+  .link-layout,
+  .project-grid,
+  .timeline-layout,
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-kicker,
+  .hero-title-block,
+  .hero-summary,
+  .hero-facts,
+  .profile-card,
+  .bio-block,
+  .skills-panel,
+  .discipline-grid,
+  .link-panel,
+  .link-list,
+  .project-card.compact,
+  .timeline-block,
+  .education-block,
+  .contact-intro,
+  .contact-list {
+    grid-column: auto;
+  }
+
+  .hero-facts,
+  .discipline-grid,
+  .gallery-grid,
+  .tool-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .project-card.featured {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* ══════════════════════════════════════════
-   INTERSECTION OBSERVER
-   — scroll reveal  +  stat-bar animation
-══════════════════════════════════════════ */
-if ('IntersectionObserver' in window) {
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
+@media (max-width: 720px) {
+  .page-frame {
+    inset: 10px;
+  }
 
-      // Reveal element
-      entry.target.classList.add('in');
+  .container,
+  .topbar {
+    width: min(var(--max-width), calc(100% - 24px));
+  }
 
-      // Animate any stat bars inside this element
-      entry.target.querySelectorAll('.csr-fill').forEach(bar => {
-        // Read target width from inline CSS custom property  e.g. style="--w:0.95"
-        const w = bar.style.getPropertyValue('--w') || '1';
-        bar.style.transform = `scaleX(${w})`;
-      });
+  .hero {
+    padding-top: 20px;
+  }
 
-      io.unobserve(entry.target);
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  .hero-title-block,
+  .section-heading {
+    grid-template-columns: 1fr;
+  }
 
-  $$('.rv').forEach(el => io.observe(el));
+  .hero-facts,
+  .discipline-grid,
+  .gallery-grid,
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+  }
 }
 
-/* ══════════════════════════════════════════
-   THROTTLED SCROLL — NAV ACTIVE STATE
-══════════════════════════════════════════ */
-{
-  const sections = $$('section[id]');
-  let pending = false;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-  window.addEventListener('scroll', () => {
-    if (pending) return;
-    pending = true;
-    requestAnimationFrame(() => {
-      const y = window.scrollY;
-      sections.forEach(s => {
-        const link = $$(`.nav-links a[href="#${s.id}"]`)[0];
-        if (link) {
-          link.classList.toggle(
-            'active',
-            y >= s.offsetTop - 100 && y < s.offsetTop + s.offsetHeight - 100
-          );
-        }
-      });
-      pending = false;
-    });
-  }, { passive: true });
+  .reveal,
+  .button,
+  .text-link,
+  .resource-link,
+  .menu a::after,
+  .skill-bar span {
+    transition: none;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .button:hover,
+  .button:focus-visible,
+  .text-link:hover,
+  .resource-link:hover {
+    transform: none;
+  }
 }
-
-/* ══════════════════════════════════════════
-   THREE.JS  — initialise after full page load
-   (Three.js is loaded with `defer` so it's
-    guaranteed to be ready at window.load)
-══════════════════════════════════════════ */
-window.addEventListener('load', () => {
-  if (!window.THREE) return;
-
-  const {
-    WebGLRenderer, Scene, PerspectiveCamera,
-    BufferGeometry, BufferAttribute, PointsMaterial, Points, Color,
-    MeshBasicMaterial, MeshPhongMaterial,
-    OctahedronGeometry, IcosahedronGeometry, CylinderGeometry,
-    BoxGeometry, SphereGeometry, TorusKnotGeometry,
-    Mesh, Group,
-    AmbientLight, DirectionalLight,
-    GridHelper, Clock,
-  } = THREE;
-
-  /* ─────────────────────────────────────────
-     HERO PARTICLE FIELD
-  ───────────────────────────────────────── */
-  (() => {
-    const canvas = $('#hero-canvas');
-    if (!canvas) return;
-
-    const W = window.innerWidth, H = window.innerHeight;
-    const renderer = new WebGLRenderer({
-      canvas,
-      antialias: false,
-      alpha: true,
-      powerPreference: 'high-performance',
-    });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
-    renderer.setSize(W, H);
-    renderer.setClearColor(0, 0);
-
-    const scene  = new Scene();
-    const cam    = new PerspectiveCamera(60, W / H, 0.1, 2000);
-    cam.position.z = 800;
-
-    // Particles
-    const COUNT = W < 768 ? 1200 : 3000;
-    const geo   = new BufferGeometry();
-    const pos   = new Float32Array(COUNT * 3);
-    const col   = new Float32Array(COUNT * 3);
-    const c1 = new Color(0xff6b00);
-    const c2 = new Color(0x00d4ff);
-    const c3 = new Color(0xffffff);
-
-    for (let i = 0; i < COUNT; i++) {
-      pos[i * 3]     = (Math.random() - 0.5) * 2000;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 2000;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 1000;
-      const c = Math.random() < 0.7 ? c1 : Math.random() < 0.5 ? c2 : c3;
-      col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
-    }
-    geo.setAttribute('position', new BufferAttribute(pos, 3));
-    geo.setAttribute('color',    new BufferAttribute(col, 3));
-
-    const pts = new Points(geo, new PointsMaterial({
-      size: 2, vertexColors: true, transparent: true, opacity: 0.7,
-    }));
-    scene.add(pts);
-
-    // Wireframe deco meshes
-    const wf1 = new Mesh(
-      new OctahedronGeometry(180, 2),
-      new MeshBasicMaterial({ color: 0xff6b00, wireframe: true, transparent: true, opacity: 0.08 })
-    );
-    wf1.position.set(300, 0, -200);
-    scene.add(wf1);
-
-    const wf2 = new Mesh(
-      new IcosahedronGeometry(90, 1),
-      new MeshBasicMaterial({ color: 0x00d4ff, wireframe: true, transparent: true, opacity: 0.12 })
-    );
-    wf2.position.set(-200, 150, -100);
-    scene.add(wf2);
-
-    // Mouse parallax
-    let mx = 0, my = 0;
-    window.addEventListener('mousemove', e => {
-      mx = (e.clientX / innerWidth  - 0.5) * 0.5;
-      my = (e.clientY / innerHeight - 0.5) * 0.5;
-    }, { passive: true });
-
-    // Debounced resize
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        const W = innerWidth, H = innerHeight;
-        cam.aspect = W / H;
-        cam.updateProjectionMatrix();
-        renderer.setSize(W, H);
-      }, 200);
-    });
-
-    // Render loop
-    const clk = new Clock();
-    const tick = () => {
-      requestAnimationFrame(tick);
-      const t = clk.getElapsedTime();
-      pts.rotation.y = t * 0.02;
-      pts.rotation.x = t * 0.01;
-      wf1.rotation.x = t * 0.3;
-      wf1.rotation.y = t * 0.5;
-      wf2.rotation.y = -t * 0.4;
-      wf2.rotation.z =  t * 0.2;
-      cam.position.x += (mx * 100 - cam.position.x) * 0.05;
-      cam.position.y += (-my * 80 - cam.position.y) * 0.05;
-      cam.lookAt(scene.position);
-      renderer.render(scene, cam);
-    };
-    tick();
-  })();
-
-  /* ─────────────────────────────────────────
-     3D MODEL VIEWER
-  ───────────────────────────────────────── */
-  (() => {
-    const canvas = $('#mc');
-    const wrap   = $('#mwrap');
-    if (!canvas || !wrap) return;
-
-    const renderer = new WebGLRenderer({
-      canvas,
-      antialias: true,
-      powerPreference: 'high-performance',
-    });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    renderer.setSize(wrap.clientWidth, wrap.clientHeight);
-    renderer.setClearColor(0x10101c, 1);
-
-    const scene = new Scene();
-    const cam   = new PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 100);
-    cam.position.set(0, 2, 6);
-    cam.lookAt(0, 0, 0);
-
-    // Lights
-    scene.add(new AmbientLight(0x404060, 0.5));
-    const kl = new DirectionalLight(0xff6b00, 2); kl.position.set(5, 5, 5);   scene.add(kl);
-    const fl = new DirectionalLight(0x00d4ff, 1); fl.position.set(-5, 3, -5); scene.add(fl);
-    const rl = new DirectionalLight(0xffffff, .5); rl.position.set(0, -5, -5); scene.add(rl);
-
-    // Ground grid
-    const grid = new GridHelper(20, 20, 0xff6b00, 0x222240);
-    grid.material.opacity    = 0.3;
-    grid.material.transparent = true;
-    grid.position.y = -2;
-    scene.add(grid);
-
-    // Shared materials — one GPU upload, reused across models
-    const mSteel = new MeshPhongMaterial({ color: 0x334455, shininess: 80 });
-    const mBlue  = new MeshPhongMaterial({ color: 0x667788, shininess: 120 });
-    const mChar  = new MeshPhongMaterial({ color: 0x8899aa, shininess: 50 });
-    const mGlow  = new MeshBasicMaterial({ color: 0xff6b00 });
-    const mEye   = new MeshBasicMaterial({ color: 0x00d4ff });
-    const mWf    = new MeshBasicMaterial({ color: 0xff6b00, wireframe: true, transparent: true, opacity: 0.15 });
-
-    // Model definitions — swap build() with GLTFLoader calls for your own models
-    const defs = [
-      {
-        info: 'POLY COUNT: ~8K\nFORMAT: GLB\nCATEGORY: VEHICLE',
-        build() {
-          const g = new Group();
-          const body = new Mesh(new CylinderGeometry(0.3, 0.6, 2.5, 8), mSteel);
-          body.rotation.z = Math.PI / 2;
-          g.add(body);
-          const wing1 = new Mesh(new BoxGeometry(0.1, 1.8, 2), new MeshPhongMaterial({ color: 0x445566, shininess: 60 }));
-          wing1.position.y = 0.5;
-          g.add(wing1);
-          const wing2 = wing1.clone(); wing2.position.y = -0.5; g.add(wing2);
-          const glow  = new Mesh(new SphereGeometry(0.3, 8, 8), mGlow); glow.position.x = -1.5; g.add(glow);
-          const wf    = new Mesh(new CylinderGeometry(0.32, 0.62, 2.55, 8), mWf); wf.rotation.z = Math.PI / 2; g.add(wf);
-          return g;
-        },
-      },
-      {
-        info: 'POLY COUNT: ~4K\nFORMAT: GLB\nCATEGORY: WEAPON',
-        build() {
-          const g = new Group();
-          const blade = new Mesh(new BoxGeometry(0.08, 3, 0.06), mBlue); blade.position.y = 1; g.add(blade);
-          g.add(new Mesh(new BoxGeometry(1, 0.12, 0.12), new MeshPhongMaterial({ color: 0x996622, shininess: 80 })));
-          const handle = new Mesh(new CylinderGeometry(0.06, 0.06, 0.8, 8), new MeshPhongMaterial({ color: 0x443322, shininess: 20 }));
-          handle.position.y = -0.5; g.add(handle);
-          const jewel = new Mesh(new OctahedronGeometry(0.12), new MeshBasicMaterial({ color: 0xff3b00 }));
-          jewel.position.set(0, 2.5, 0); g.add(jewel);
-          g.rotation.z = 0.3;
-          return g;
-        },
-      },
-      {
-        info: 'POLY COUNT: ~2K\nFORMAT: GLB\nCATEGORY: CHARACTER',
-        build() {
-          const g = new Group();
-          const head = new Mesh(new BoxGeometry(0.7, 0.7, 0.7), mChar); head.position.y = 1.5; g.add(head);
-          const body = new Mesh(new BoxGeometry(0.8, 1, 0.4),   mChar); body.position.y = 0.7; g.add(body);
-          const lA   = new Mesh(new BoxGeometry(0.25, 1, 0.25), mChar); lA.position.set(-0.6, 0.7, 0); g.add(lA);
-          const rA   = lA.clone(); rA.position.x = 0.6; g.add(rA);
-          const lL   = new Mesh(new BoxGeometry(0.3, 1.1, 0.3), mChar); lL.position.set(-0.2, -0.35, 0); g.add(lL);
-          const rL   = lL.clone(); rL.position.x = 0.2; g.add(rL);
-          const e1   = new Mesh(new BoxGeometry(0.12, 0.08, 0.1), mEye); e1.position.set(-0.2, 1.55, 0.36); g.add(e1);
-          const e2   = e1.clone(); e2.position.x = 0.2; g.add(e2);
-          return g;
-        },
-      },
-      {
-        // ── Replace this build() with your own GLTFLoader call ──
-        // Example:
-        //   const loader = new THREE.GLTFLoader();
-        //   loader.load('./models/my-model.glb', gltf => {
-        //     scene.add(gltf.scene);
-        //   });
-        info: 'YOUR MODEL\nFORMAT: .GLB/.GLTF\nSEE INSTRUCTIONS',
-        build() {
-          const g = new Group();
-          g.add(new Mesh(
-            new TorusKnotGeometry(1, 0.3, 64, 8),
-            new MeshPhongMaterial({ color: 0x00d4ff, wireframe: true, transparent: true, opacity: 0.4 })
-          ));
-          return g;
-        },
-      },
-    ];
-
-    let current = null;
-    const infoEl = $('#minfo');
-
-    function loadModel(i) {
-      if (current) {
-        scene.remove(current);
-        current.traverse(c => { if (c.isMesh) c.geometry.dispose(); });
-      }
-      current = defs[i].build();
-      scene.add(current);
-      if (infoEl) infoEl.textContent = defs[i].info;
-    }
-    loadModel(0);
-
-    // Model selector buttons
-    $$('.mbtn').forEach((btn, i) => {
-      btn.addEventListener('click', () => {
-        $$('.mbtn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
-        btn.classList.add('active');
-        btn.setAttribute('aria-pressed', 'true');
-        loadModel(i);
-      });
-    });
-
-    // Unified mouse + touch orbit controls
-    let drag = false, px = 0, py = 0, rotX = 0, rotY = 0, zoom = 6;
-
-    const getXY = e => e.touches
-      ? [e.touches[0].clientX, e.touches[0].clientY]
-      : [e.clientX, e.clientY];
-
-    wrap.addEventListener('mousedown',  e => { drag = true; [px, py] = getXY(e); });
-    wrap.addEventListener('touchstart', e => { drag = true; [px, py] = getXY(e); }, { passive: true });
-    window.addEventListener('mouseup',  () => drag = false);
-    window.addEventListener('touchend', () => drag = false);
-
-    window.addEventListener('mousemove', e => {
-      if (!drag) return;
-      const [cx, cy] = getXY(e);
-      rotY += (cx - px) * 0.01;
-      rotX += (cy - py) * 0.01;
-      px = cx; py = cy;
-    }, { passive: true });
-
-    window.addEventListener('touchmove', e => {
-      if (!drag) return;
-      const [cx, cy] = getXY(e);
-      rotY += (cx - px) * 0.01;
-      rotX += (cy - py) * 0.01;
-      px = cx; py = cy;
-    }, { passive: true });
-
-    wrap.addEventListener('wheel', e => {
-      zoom = Math.max(2, Math.min(12, zoom + e.deltaY * 0.01));
-      e.preventDefault();
-    }, { passive: false });
-
-    // Responsive — ResizeObserver keeps canvas sharp if layout shifts
-    new ResizeObserver(() => {
-      const W = wrap.clientWidth, H = wrap.clientHeight;
-      cam.aspect = W / H;
-      cam.updateProjectionMatrix();
-      renderer.setSize(W, H);
-    }).observe(wrap);
-
-    // Render loop
-    const clk = new Clock();
-    const tick = () => {
-      requestAnimationFrame(tick);
-      const t = clk.getElapsedTime();
-      if (current) {
-        current.rotation.y  = rotY + t * 0.4;
-        current.rotation.x  = rotX;
-        current.position.y  = Math.sin(t * 0.8) * 0.15;
-      }
-      cam.position.z = zoom;
-      renderer.render(scene, cam);
-    };
-    tick();
-  })();
-});
