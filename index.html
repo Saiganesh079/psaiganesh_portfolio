@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Saiganesh Penta — multidisciplinary designer working across 3D, motion, graphic and brand design.">
+<title>Saiganesh Penta — Designer</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Home-only editorial sections */
+.home-profile,.home-contact{max-width:1440px;margin:0 auto;padding:110px 22px 120px}
+.home-profile{border-top:1px solid var(--line)}
+.home-profile-head{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.home-profile-title{font-size:clamp(52px,7vw,96px);line-height:.86;letter-spacing:-.065em;font-weight:400;margin:0}
+.home-profile-title em{font-style:normal;color:#6b6b67}
+.home-profile-copy{font-size:15px;line-height:1.45;max-width:520px}
+.home-profile-copy p{margin:0 0 18px}
+.home-profile-meta{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:70px}
+.home-meta-cell{min-height:125px;padding:15px 14px;border-right:1px solid var(--line)}
+.home-meta-cell:last-child{border-right:0}
+.home-meta-cell small{display:block;font:8px var(--mono);color:var(--muted);text-transform:uppercase;margin-bottom:28px}
+.home-meta-cell strong{display:block;font-size:14px;line-height:1.1;font-weight:500}
+.home-meta-cell span{display:block;font:8px var(--mono);color:var(--muted);margin-top:12px}
+
+.home-contact{border-top:1px solid var(--line);padding-bottom:150px}
+.home-contact-top{display:flex;justify-content:space-between;align-items:center;font:10px var(--mono);color:var(--muted);text-transform:uppercase;margin-bottom:65px}
+.home-contact-email{display:block;color:#090909;text-decoration:none;font-size:clamp(58px,10vw,150px);line-height:.8;letter-spacing:-.075em;white-space:nowrap;border-bottom:1px solid var(--line);padding:0 0 35px;overflow:hidden}
+.home-contact-email:hover{color:#1683ff}
+.home-contact-links{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+.home-contact-link{display:flex;align-items:center;justify-content:space-between;color:#090909;text-decoration:none;font-size:clamp(52px,7vw,105px);line-height:.82;letter-spacing:-.065em;padding:30px 0;border-bottom:1px solid var(--line)}
+.home-contact-link:nth-child(2){border-left:0}
+.home-contact-link:hover{color:#1683ff}
+.home-contact-link .contact-arrow{font-size:.75em;line-height:1;transform:translate(-6px,6px);transition:transform .2s}
+.home-contact-link:hover .contact-arrow{transform:translate(0,0)}
+
+@media(max-width:900px){
+ .home-profile-head{grid-template-columns:1fr;gap:35px}
+ .home-profile-meta{grid-template-columns:repeat(2,1fr)}
+ .home-meta-cell:nth-child(2){border-right:0}
+ .home-meta-cell:nth-child(-n+2){border-bottom:1px solid var(--line)}
+ .home-contact-email{white-space:normal;overflow-wrap:anywhere;font-size:13vw}
+}
+@media(max-width:600px){
+ .home-profile,.home-contact{padding:80px 12px 90px}
+ .home-profile-title{font-size:15vw}
+ .home-profile-meta{grid-template-columns:1fr 1fr;margin-top:45px}
+ .home-meta-cell{min-height:110px}
+ .home-contact-top{margin-bottom:45px}
+ .home-contact-link{font-size:12vw;padding:22px 0}
+}
+</style>
+
+<style>
+/* Home-only Tools & Experience */
+.home-tools,.home-experience{max-width:1440px;margin:0 auto;padding:110px 22px 120px}
+.home-tools .container,.home-experience .container{width:100%}
+.home-tools .section-heading,.home-experience .section-heading{display:flex;align-items:baseline;gap:22px;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:44px}
+.home-tools .section-heading h2,.home-experience .section-heading h2{font-size:clamp(48px,6vw,78px);line-height:.85;letter-spacing:-.055em;font-weight:500;margin:0}
+.home-tools .section-index,.home-experience .section-index{font:10px var(--mono);color:#ff3131;margin:0}
+.home-tools .tool-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line)}
+.home-tools .tool-cell{min-height:185px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px}
+.home-tools .tool-cell:nth-child(4n){border-right:0}
+.home-tools .tool-cell:nth-last-child(-n+4){border-bottom:0}
+.home-tools .tool-mark{width:68px;height:68px;border:1px solid #111;display:grid;place-items:center;font-size:20px;font-weight:600}
+.home-tools .tool-cell>span:last-child{font:12px var(--mono);text-transform:uppercase}
+.home-experience{background:rgba(236,232,222,.5)}
+.home-experience .timeline-layout{display:grid;grid-template-columns:1.7fr 1fr;gap:58px}
+.home-experience .eyebrow{font:9px var(--mono);text-transform:uppercase;color:var(--muted)}
+.home-experience .timeline-item{padding:24px 22px;border-left:1px solid #ff3131;background:rgba(255,255,255,.32);margin-top:10px}
+.home-experience .timeline-item h3,.home-experience .education-card h3{font-size:14px;line-height:1.2;margin:10px 0}
+.home-experience .timeline-item p:not(.project-meta):not(.organization){font-size:11px;line-height:1.45;max-width:620px}
+.home-experience .project-meta{font:9px var(--mono);color:var(--muted);margin:0}
+.home-experience .organization{font-size:10px;color:var(--muted);margin:0 0 12px}
+.home-experience .education-card{border:1px solid #ccc8be;background:rgba(255,255,255,.45);padding:22px;margin-top:10px}
+.home-experience .education-card>p:last-child{font-size:9px;line-height:1.4;color:#555;margin:8px 0 0}
+@media(max-width:800px){
+ .home-tools,.home-experience{padding:80px 12px 90px}
+ .home-tools .tool-grid{grid-template-columns:repeat(2,1fr)}
+ .home-tools .tool-cell:nth-child(4n){border-right:1px solid var(--line)}
+ .home-tools .tool-cell:nth-child(2n){border-right:0}
+ .home-tools .tool-cell:nth-last-child(-n+4){border-bottom:1px solid var(--line)}
+ .home-tools .tool-cell:nth-last-child(-n+2){border-bottom:0}
+ .home-experience .timeline-layout{grid-template-columns:1fr;gap:35px}
+}
+</style>
+
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<header class="site-header">
+<a class="wordmark" href="index.html">SAIGANESH<span>/</span>PENTA</a>
+<nav class="nav-links">
+<a class="is-active" href="index.html">Home</a>
+<a href="work.html">Work</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</nav>
+<div class="header-right"><span>DE / EN</span><a href="contact.html">Let's talk</a></div>
+<button class="menu-toggle">Menu</button>
+</header>
+
+<main>
+
+<section class="landing-hero">
+  <div class="landing-kicker">SAIGANESH / PENTA</div>
+  <div class="landing-title-row">
+    <h1>Visual designer<br><em>across disciplines.</em></h1>
+    <span class="landing-year">2020—2026</span>
+  </div>
+  <p class="landing-intro">3D art, motion, graphic &amp; brand design, and game-oriented visual work.</p>
+</section>
+
+<section class="landing-categories" aria-label="Portfolio categories">
+  <div class="landing-section-label"><span>WORK</span><span>SELECT A DISCIPLINE</span></div>
+  <div class="landing-category-grid">
+    <a class="landing-category-card" href="work.html#3d">
+      <span class="category-number">01</span><span class="category-arrow" aria-hidden="true">↗</span>
+      <strong>3D</strong><span>Art &amp; Design</span>
+    </a>
+    <a class="landing-category-card" href="work.html#motion">
+      <span class="category-number">02</span><span class="category-arrow" aria-hidden="true">↗</span>
+      <strong>Elements</strong><span>&amp; Motion Graphics</span>
+    </a>
+    <a class="landing-category-card" href="work.html#graphic">
+      <span class="category-number">03</span><span class="category-arrow" aria-hidden="true">↗</span>
+      <strong>Graphics</strong><span>&amp; Brand Design</span>
+    </a>
+    <a class="landing-category-card" href="work.html#game">
+      <span class="category-number">04</span><span class="category-arrow" aria-hidden="true">↗</span>
+      <strong>Game</strong><span>Level Design</span>
+    </a>
+  </div>
+</section>
+
+<!-- Profile / approach: intentionally replaces the previous long tools list. -->
+<section class="home-profile">
+  <div class="landing-section-label"><span>PROFILE</span><span>APPROACH</span></div>
+  <div class="home-profile-head">
+    <h2 class="home-profile-title">Structure first.<br><em>Visual character<br>second.</em></h2>
+    <div class="home-profile-copy">
+      <p>I work between digital design and visual production, moving from composition and identity to modeling, animation and interactive systems.</p>
+      <p>My background in Game Art &amp; Design and Business Analytics gives me both a visual and analytical perspective. I use whichever tools and methods are appropriate to the problem.</p>
+    </div>
+  </div>
+
+  <div class="home-profile-meta">
+    <div class="home-meta-cell">
+      <small>Education</small>
+      <strong>BA — Game Art &amp; Design</strong>
+      <span>JNAFAU</span>
+    </div>
+    <div class="home-meta-cell">
+      <small>Education</small>
+      <strong>PGDM — Business Analytics</strong>
+      <span>Sliva Sivani Institute of Management</span>
+    </div>
+    <div class="home-meta-cell">
+      <small>Experience</small>
+      <strong>Motion Graphic Artist</strong>
+      <span>Limped Frog / Paillette Design</span>
+    </div>
+    <div class="home-meta-cell">
+      <small>Experience</small>
+      <strong>Product / Visual Design</strong>
+      <span>ChiefPulse</span>
+    </div>
+  </div>
+</section>
+
+<!-- Contact section: large editorial contact treatment, no separate project cards. -->
+
+    <section id="tools" class="section home-tools">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-index">05</p>
+          <h2>Tools &amp; Software</h2>
+        </div>
+        <div class="tool-grid reveal">
+          <div class="tool-cell"><span class="tool-mark">BL</span><span>Blender</span></div>
+          <div class="tool-cell"><span class="tool-mark">UE</span><span>Unreal Engine</span></div>
+          <div class="tool-cell"><span class="tool-mark">ZB</span><span>ZBrush</span></div>
+          <div class="tool-cell"><span class="tool-mark">SP</span><span>Substance Painter</span></div>
+          <div class="tool-cell"><span class="tool-mark">FI</span><span>Figma</span></div>
+          <div class="tool-cell"><span class="tool-mark">PS</span><span>Photoshop</span></div>
+          <div class="tool-cell"><span class="tool-mark">AE</span><span>After Effects</span></div>
+          <div class="tool-cell"><span class="tool-mark">PP</span><span>Premiere Pro</span></div>
+          <div class="tool-cell"><span class="tool-mark">PD</span><span>Power BI</span></div>
+          <div class="tool-cell"><span class="tool-mark">PY</span><span>Python</span></div>
+          <div class="tool-cell"><span class="tool-mark">SU</span><span>Substance Designer</span></div>
+          <div class="tool-cell"><span class="tool-mark">MD</span><span>Marvelous Designer</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="section section-alt home-experience">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-index">06</p>
+          <h2>Experience &amp; Education</h2>
+        </div>
+        <div class="timeline-layout">
+          <article class="timeline-block reveal">
+            <p class="eyebrow">Experience</p>
+            <div class="timeline-item">
+              <p class="project-meta">2026 / Germany</p>
+              <h3>ChiefPulse — Product / Visual Design Internship</h3>
+              <p class="organization">Product design, visual communication and digital experience work</p>
+              <p>Worked across product and marketing-facing design tasks, connecting interface design, visual systems and communication into practical digital experiences.</p>
+            </div>
+            <div class="timeline-item">
+              <p class="project-meta">2020 – 2021 / Hyderabad</p>
+              <h3>Motion Graphic Artist</h3>
+              <p class="organization">Limped Frog / Palette69.design</p>
+              <p>Created motion graphics, campaign visuals and digital content while contributing to 3D and visual production workflows for client-facing work including Byju's QBS Learning and Bayer Crops.</p>
+            </div>
+          </article>
+          <article class="education-block reveal">
+            <p class="eyebrow">Education</p>
+            <div class="education-card"><p class="project-meta">2023 – 2025</p><h3>PGDM · Business Analytics</h3><p>Siva Sivani Institute of Management</p></div>
+            <div class="education-card"><p class="project-meta">2019 – 2023</p><h3>BA · Game Art &amp; Design</h3><p>Jawaharlal Nehru Architecture and Fine Arts University (JNAFAU)</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+<section class="home-contact" id="contact">
+  <div class="home-contact-top">
+    <span>GET IN TOUCH</span>
+    <span>LINKS</span>
+  </div>
+
+  <a class="home-contact-email" href="mailto:kushlu7244@gmail.com">kushlu7244@gmail.com</a>
+
+  <div class="home-contact-links">
+    <a class="home-contact-link" href="https://www.linkedin.com/in/saiganesh-p/" target="_blank" rel="noopener">
+      <span>LinkedIn</span><span class="contact-arrow">↗</span>
+    </a>
+    <a class="home-contact-link" href="https://www.artstation.com/starkrey" target="_blank" rel="noopener">
+      <span>ArtStation</span><span class="contact-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+<div><strong>SAIGANESH / PENTA</strong><span>Multidisciplinary designer</span></div>
+<div><span>3D · Motion · Graphic · Game Level Design</span><a href="contact.html">Contact →</a></div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
